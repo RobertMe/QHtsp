@@ -30,6 +30,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     Q_INVOKABLE QHtspChannel *getChannelById(int id);
+    Q_INVOKABLE QHtspChannel *getChannelByIndex(int i);
 
 private:
     QHtspChannelList *m_channels;

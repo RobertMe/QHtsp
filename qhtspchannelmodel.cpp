@@ -111,6 +111,11 @@ QHtspChannel *QHtspChannelModel::getChannelById(int id)
     return m_channels->find(id);
 }
 
+QHtspChannel *QHtspChannelModel::getChannelByIndex(int i)
+{
+    return m_channels->at(i);
+}
+
 void QHtspChannelModel::_addRow(QHtspChannel *channel)
 {
     int rows = rowCount();
