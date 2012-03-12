@@ -11,6 +11,8 @@
 class QHtspTagModel : public QAbstractTableModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount)
+
 public:
     enum TagRoles {
         IdRole = Qt::UserRole + 1,

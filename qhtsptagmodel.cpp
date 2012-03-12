@@ -93,12 +93,6 @@ void QHtspTagModel::_addRow(QHtspTag *tag)
     connect(tag, SIGNAL(nameChanged()), this, SLOT(_updateName()));
 }
 
-/*void QHtspTagModel::_updateRow(QHtspTag *tag)
-{
-    int row = m_tags->indexOf(tag);
-    emit dataChanged(createIndex(row, 1), createIndex(row, 3));
-}*/
-
 void QHtspTagModel::_updateIcon()
 {
     int row = m_tags->indexOf((QHtspTag*)QObject::sender());
