@@ -11,7 +11,8 @@ HEADERS += \
     QHtsp/qhtsptaglist.h \
     QHtsp/qhtsptag.h \
     QHtsp/qhtspmessage.h \
-    QHtsp/qhtspeventmodel.h
+    QHtsp/qhtspeventmodel.h \
+    QHtsp/qhtspepgquery.h
 
 SOURCES += \
     QHtsp/qhtspeventlist.cpp \
@@ -25,4 +26,5 @@ SOURCES += \
     QHtsp/qhtsptaglist.cpp \
     QHtsp/qhtsptag.cpp \
     QHtsp/qhtspmessage.cpp \
-    QHtsp/qhtspeventmodel.cpp
+    QHtsp/qhtspeventmodel.cpp \
+    QHtsp/qhtspepgquery.cpp

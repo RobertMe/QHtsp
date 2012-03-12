@@ -24,7 +24,8 @@ SOURCES += qhtspconnection.cpp \
     qhtsptagmodel.cpp \
     qhtspevent.cpp \
     qhtspeventlist.cpp \
-    qhtspeventmodel.cpp
+    qhtspeventmodel.cpp \
+    qhtspepgquery.cpp
 
 HEADERS += qhtspconnection.h \
     qhtsp_global.h \
@@ -38,7 +39,8 @@ HEADERS += qhtspconnection.h \
     qhtsptagmodel.h \
     qhtspevent.h \
     qhtspeventlist.h \
-    qhtspeventmodel.h
+    qhtspeventmodel.h \
+    qhtspepgquery.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

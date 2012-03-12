@@ -9,6 +9,7 @@
 #include "qhtsp_global.h"
 #include "qhtspchannellist.h"
 #include "qhtspconnection.h"
+#include "qhtspepgquery.h"
 #include "qhtspeventlist.h"
 #include "qhtspmessage.h"
 #include "qhtsptaglist.h"
@@ -32,6 +33,7 @@ public:
     void enableAsync();
     void getEvent(qint64 eventId);
     void getEvents(qint64 nextEventId, int numFollowing, QHtspEventList *eventList);
+    void queryEpg(QHtspEpgQuery *query);
 
 signals:
     void connected();
@@ -46,6 +48,7 @@ private:
     QByteArray m_challenge;
     QString m_clientName;
     QString m_clientVersion;
+    QHash<qint64, QHtspEpgQuery*> m_epgQueries;
     int m_htspVersion;
     uint m_preferredHtspVersion;
     QHash<qint64, qint64> m_requestedEvents;
@@ -57,6 +60,7 @@ private slots:
     void _connectionConnected();
     void _invoke(QString method, QHtspMessage &message);
 
+    void _handleEpgQuery(QHtspMessage &message);
     void _handleGetEvent(QHtspMessage &message);
     void _handleGetEvents(QHtspMessage &message);
     void _handleHello(QHtspMessage &message);

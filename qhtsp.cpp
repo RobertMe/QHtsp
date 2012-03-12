@@ -105,6 +105,20 @@ void QHtsp::getEvents(qint64 nextEventId, int numFollowing, QHtspEventList *even
     m_requestedEventLists[seq] = eventList;
 }
 
+void QHtsp::queryEpg(QHtspEpgQuery *query)
+{
+    int seq;
+    QHtspMessage epgQuery;
+    epgQuery.addString("method", "epgQuery");
+    epgQuery.addString("query", query->query());
+    if(query->channel())
+        epgQuery.addInt64("channelId", query->channel()->id());
+    if(query->tag())
+        epgQuery.addInt64("tagId", query->tag()->id());
+    seq = m_connection->sendMessage(epgQuery, this, "_handleEpgQuery");
+    m_epgQueries[seq] = query;
+}
+
 void QHtsp::_connectionConnected()
 {
     QHtspMessage hello;
@@ -158,6 +172,38 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
     {
         qDebug() << "Unknown method " << method;
     }
+}
+
+void QHtsp::_handleEpgQuery(QHtspMessage &message)
+{
+    int seq, i;
+    QHtspEpgQuery *query;
+    QList<qint64> *eventIds;
+    bool ok;
+
+    seq = message.getInt64("seq");
+    query = m_epgQueries[seq];
+    if(!query)
+        return;
+
+    eventIds = message.getInt64List("eventIds", &ok);
+    if(!ok)
+        return;
+
+    for(i = 0; i < eventIds->length(); i++)
+    {
+        QHtspEvent *event = events()->find(eventIds->at(i));
+        if(!event)
+        {
+            event = new QHtspEvent(this, eventIds->at(i), this);
+            events()->add(event);
+            getEvent(event->id());
+        }
+
+        query->events()->add(event);
+    }
+
+    delete eventIds;
 }
 
 void QHtsp::_handleGetEvent(QHtspMessage &message)
