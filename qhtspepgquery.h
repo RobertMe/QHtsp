@@ -33,7 +33,7 @@ public:
     void setQuery(QString query);
     void setTag(QHtspTag *tag);
 
-    void run();
+    Q_INVOKABLE void run();
 
 private:
     QHtspChannel *m_channel;
