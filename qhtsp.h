@@ -18,7 +18,7 @@ class QHTSPSHARED_EXPORT QHtsp : public QObject
 {
     Q_OBJECT
 public:
-    QHtsp();
+    QHtsp(QObject *parent = 0);
 
     QHtspChannelList *channels();
     QHtspEventList *events();

@@ -4,7 +4,8 @@
 
 #include "qhtspevent.h"
 
-QHtsp::QHtsp()
+QHtsp::QHtsp(QObject *parent) :
+    QObject(parent)
 {
     m_connection = NULL;
 }
