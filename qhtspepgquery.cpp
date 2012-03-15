@@ -7,6 +7,15 @@ QHtspEpgQuery::QHtspEpgQuery(QHtsp *htsp, QObject *parent) :
 {
 }
 
+QHtspEpgQuery::QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent) :
+    QObject(parent), m_eventsModel(&m_events)
+{
+    m_channel = epgQuery.m_channel;
+    m_htsp = epgQuery.m_htsp;
+    m_query = epgQuery.m_query;
+    m_tag = epgQuery.m_tag;
+}
+
 QHtspChannel *QHtspEpgQuery::channel()
 {
     return m_channel;

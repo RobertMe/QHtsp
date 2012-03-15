@@ -23,6 +23,19 @@ QHtspChannel::QHtspChannel(QHtspMessage &message, QHtsp *htsp, QObject *parent) 
     _parseMessage(message);
 }
 
+QHtspChannel::QHtspChannel(const QHtspChannel& channel, QObject *parent) :
+    QObject(parent), m_events(this), m_eventModel(&m_events)
+{
+    m_event = channel.m_event;
+    m_eventId = channel.m_eventId;
+    m_htsp = channel.m_htsp;
+    m_iconUrl = channel.m_iconUrl;
+    m_id = channel.m_id;
+    m_name = channel.m_name;
+    m_number = channel.m_number;
+    m_events.add(m_event);
+}
+
 QHtspEvent *QHtspChannel::event()
 {
     if(m_eventId >= 0 && (!m_event || m_event->id() != m_eventId))

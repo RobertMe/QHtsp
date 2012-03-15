@@ -17,6 +17,20 @@ QHtspEvent::QHtspEvent(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
     _parseMessage(message);
 }
 
+QHtspEvent::QHtspEvent(const QHtspEvent &event, QObject *parent) :
+    QObject(parent)
+{
+    m_id = event.m_id;
+    m_channelId = event.m_channelId;
+    m_description = event.m_description;
+    m_htsp = event.m_htsp;
+    m_nextEventId = event.m_nextEventId;
+    m_start = event.m_start;
+    m_stop = event.m_stop;
+    m_title = event.m_title;
+    m_loaded = event.m_loaded;
+}
+
 qint64 QHtspEvent::id()
 {
     return m_id;

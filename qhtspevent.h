@@ -23,6 +23,7 @@ class QHtspEvent : public QObject
 public:
     QHtspEvent(QHtsp *htsp = 0, qint64 id = -1, QObject *parent = 0);
     QHtspEvent(QHtspMessage &message, QHtsp *htsp, QObject *parent = 0);
+    QHtspEvent(const QHtspEvent &event, QObject *parent = 0);
 
     qint64 id();
     qint64 channelId();

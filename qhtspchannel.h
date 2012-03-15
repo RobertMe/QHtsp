@@ -25,6 +25,7 @@ class QHtspChannel : public QObject
 public:
     explicit QHtspChannel(QHtsp *htsp = 0, QObject *parent = 0);
     QHtspChannel(QHtspMessage &message, QHtsp *htsp = 0, QObject *parent = 0);
+    QHtspChannel(const QHtspChannel &channel, QObject *parent = 0);
 
     QHtspEvent *event();
     QHtspEventList *events();

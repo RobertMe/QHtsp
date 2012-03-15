@@ -22,6 +22,7 @@ class QHtspTag : public QObject
 public:
     explicit QHtspTag(QHtsp *htsp = 0, QObject *parent = 0);
     QHtspTag(QHtspMessage &message, QHtsp *htsp = 0, QObject *parent = 0);
+    QHtspTag(const QHtspTag &tag, QObject *parent = 0);
     
     QHtspChannelList *channels();
     QHtspChannelModel *channelsModel();

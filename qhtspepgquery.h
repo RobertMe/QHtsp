@@ -22,6 +22,7 @@ class QHtspEpgQuery : public QObject
 
 public:
     explicit QHtspEpgQuery(QHtsp *htsp = 0, QObject *parent = 0);
+    QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent);
     
     QHtspChannel *channel();
     QHtspEventList *events();

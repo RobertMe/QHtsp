@@ -14,6 +14,15 @@ QHtspTag::QHtspTag(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
     _parseMessage(message);
 }
 
+QHtspTag::QHtspTag(const QHtspTag &tag, QObject *parent) :
+    QObject(parent), m_channels(this), m_channelsModel(&m_channels)
+{
+    m_htsp = tag.m_htsp;
+    m_iconUrl = tag.m_iconUrl;
+    m_id = tag.m_id;
+    m_name = tag.m_name;
+}
+
 QHtspChannelList *QHtspTag::channels()
 {
     return &m_channels;
