@@ -54,8 +54,8 @@ signals:
 
 private:
     QHtspEvent *m_event;
-    QHtspEventList m_events;
-    QHtspEventModel m_eventModel;
+    QHtspEventList *m_events;
+    QHtspEventModel *m_eventModel;
     qint64 m_eventId;
     QHtsp *m_htsp;
     QString m_iconUrl;

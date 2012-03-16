@@ -42,8 +42,8 @@ signals:
     void nameChanged();
 
 private:
-    QHtspChannelList m_channels;
-    QHtspChannelModel m_channelsModel;
+    QHtspChannelList *m_channels;
+    QHtspChannelModel *m_channelsModel;
     QHtsp *m_htsp;
     QString m_iconUrl;
     qint64 m_id;

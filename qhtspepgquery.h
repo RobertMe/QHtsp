@@ -38,8 +38,8 @@ public:
 
 private:
     QHtspChannel *m_channel;
-    QHtspEventList m_events;
-    QHtspEventModel m_eventsModel;
+    QHtspEventList *m_events;
+    QHtspEventModel *m_eventsModel;
     QHtsp *m_htsp;
     QString m_query;
     QHtspTag *m_tag;

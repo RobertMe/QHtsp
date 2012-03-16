@@ -3,14 +3,16 @@
 #include "qhtsp.h"
 
 QHtspEpgQuery::QHtspEpgQuery(QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_channel(0), m_eventsModel(&m_events), m_htsp(htsp), m_tag(0)
+    QObject(parent), m_channel(0), m_eventsModel(0), m_htsp(htsp), m_tag(0)
 {
+    m_events = new QHtspEventList(0, this);
 }
 
 QHtspEpgQuery::QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent) :
-    QObject(parent), m_eventsModel(&m_events)
+    QObject(parent), m_eventsModel(0)
 {
     m_channel = epgQuery.m_channel;
+    m_events = new QHtspEventList(m_channel, this);
     m_htsp = epgQuery.m_htsp;
     m_query = epgQuery.m_query;
     m_tag = epgQuery.m_tag;
@@ -23,12 +25,15 @@ QHtspChannel *QHtspEpgQuery::channel()
 
 QHtspEventList *QHtspEpgQuery::events()
 {
-    return &m_events;
+    return m_events;
 }
 
 QHtspEventModel *QHtspEpgQuery::eventsModel()
 {
-    return &m_eventsModel;
+    if(!m_eventsModel)
+        m_eventsModel = new QHtspEventModel(events());
+
+    return m_eventsModel;
 }
 
 QString QHtspEpgQuery::query()

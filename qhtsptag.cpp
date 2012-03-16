@@ -4,19 +4,22 @@
 #include "qhtspchannel.h"
 
 QHtspTag::QHtspTag(QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_channels(this), m_channelsModel(&m_channels), m_htsp(htsp), m_id(0)
+    QObject(parent), m_channelsModel(0), m_htsp(htsp), m_id(0)
 {
+    m_channels = new QHtspChannelList(this);
 }
 
 QHtspTag::QHtspTag(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_channels(this), m_channelsModel(&m_channels), m_htsp(htsp), m_id(0)
+    QObject(parent), m_channelsModel(0), m_htsp(htsp), m_id(0)
 {
+    m_channels = new QHtspChannelList(this);
     _parseMessage(message);
 }
 
 QHtspTag::QHtspTag(const QHtspTag &tag, QObject *parent) :
-    QObject(parent), m_channels(this), m_channelsModel(&m_channels)
+    QObject(parent), m_channelsModel(0)
 {
+    m_channels = tag.m_channels;
     m_htsp = tag.m_htsp;
     m_iconUrl = tag.m_iconUrl;
     m_id = tag.m_id;
@@ -25,12 +28,15 @@ QHtspTag::QHtspTag(const QHtspTag &tag, QObject *parent) :
 
 QHtspChannelList *QHtspTag::channels()
 {
-    return &m_channels;
+    return m_channels;
 }
 
 QHtspChannelModel *QHtspTag::channelsModel()
 {
-    return &m_channelsModel;
+    if(!m_channelsModel)
+        m_channelsModel = new QHtspChannelModel(channels());
+
+    return m_channelsModel;
 }
 
 QString QHtspTag::iconUrl()

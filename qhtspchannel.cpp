@@ -3,9 +3,10 @@
 #include "qhtsp.h"
 
 QHtspChannel::QHtspChannel(QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_events(this), m_eventModel(&m_events)
+    QObject(parent), m_eventModel(0)
 {
     m_event = NULL;
+    m_events = new QHtspEventList(this, this);
     m_htsp = htsp;
     m_id = -1;
     m_eventId = -1;
@@ -13,9 +14,10 @@ QHtspChannel::QHtspChannel(QHtsp *htsp, QObject *parent) :
 }
 
 QHtspChannel::QHtspChannel(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_events(this), m_eventModel(&m_events)
+    QObject(parent), m_eventModel(0)
 {
     m_event = NULL;
+    m_events = new QHtspEventList(this, this);
     m_htsp = htsp;
     m_id = -1;
     m_eventId = -1;
@@ -24,16 +26,16 @@ QHtspChannel::QHtspChannel(QHtspMessage &message, QHtsp *htsp, QObject *parent) 
 }
 
 QHtspChannel::QHtspChannel(const QHtspChannel& channel, QObject *parent) :
-    QObject(parent), m_events(this), m_eventModel(&m_events)
+    QObject(parent), m_eventModel(0)
 {
     m_event = channel.m_event;
+    m_events = channel.m_events;
     m_eventId = channel.m_eventId;
     m_htsp = channel.m_htsp;
     m_iconUrl = channel.m_iconUrl;
     m_id = channel.m_id;
     m_name = channel.m_name;
     m_number = channel.m_number;
-    m_events.add(m_event);
 }
 
 QHtspEvent *QHtspChannel::event()
@@ -54,8 +56,8 @@ QHtspEvent *QHtspChannel::event()
             }
         }
 
-        if(m_events.count() == 0)
-            m_events.add(m_event);
+        if(events()->count() == 0)
+            events()->add(m_event);
     }
 
     return m_event;
@@ -63,12 +65,15 @@ QHtspEvent *QHtspChannel::event()
 
 QHtspEventList *QHtspChannel::events()
 {
-    return &m_events;
+    return m_events;
 }
 
 QHtspEventModel *QHtspChannel::eventsModel()
 {
-    return &m_eventModel;
+    if(!m_eventModel)
+        m_eventModel = new QHtspEventModel(events());
+
+    return m_eventModel;
 }
 
 qint64 QHtspChannel::eventId()
@@ -108,7 +113,7 @@ void QHtspChannel::setEventId(qint64 eventId)
         if(m_htsp)
             m_htsp->events()->remove(m_event);
 
-        m_events.remove(m_event);
+        events()->remove(m_event);
         delete m_event;
     }
 
