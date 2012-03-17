@@ -28,6 +28,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     Q_INVOKABLE QHtspTag *getTagById(qint64 id);
+    Q_INVOKABLE QHtspTag *getTagByIndex(int i);
 
 private:
     QHtspTagList *m_tags;

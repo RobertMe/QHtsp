@@ -83,6 +83,11 @@ QHtspTag *QHtspTagModel::getTagById(qint64 id)
     return m_tags->find(id);
 }
 
+QHtspTag *QHtspTagModel::getTagByIndex(int i)
+{
+    return m_tags->at(i);
+}
+
 void QHtspTagModel::_addRow(QHtspTag *tag)
 {
     int rows = rowCount();
