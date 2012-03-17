@@ -17,6 +17,7 @@ QHtspEventModel::QHtspEventModel(QHtspEventList *events) :
     roles[StartRole] = "start";
     roles[StopRole] = "stop";
     roles[TitleRole] = "title";
+    roles[ChannelRole] = "channel";
     setRoleNames(roles);
 }
 
@@ -30,7 +31,7 @@ bool QHtspEventModel::canFetchMore(const QModelIndex &/*parent*/) const
 
 int QHtspEventModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 5;
+    return 6;
 }
 
 QVariant QHtspEventModel::data(const QModelIndex &index, int role) const
@@ -61,6 +62,9 @@ QVariant QHtspEventModel::data(const QModelIndex &index, int role) const
         case 4:
             result = event->title();
             break;
+        case 5:
+            result = event->channel() ? event->channel()->name() : "";
+            break;
         }
     }
     else if(role == IdRole)
@@ -82,6 +86,10 @@ QVariant QHtspEventModel::data(const QModelIndex &index, int role) const
     else if(role == TitleRole)
     {
         result = event->title();
+    }
+    else if(role == ChannelRole)
+    {
+        result = event->channel() ? event->channel()->name() : "";
     }
 
     return result;
@@ -118,6 +126,8 @@ QVariant QHtspEventModel::headerData(int section, Qt::Orientation orientation, i
     case 4:
         return QString("Title");
         break;
+    case 5:
+        return QString("Channel");
     }
 
     return QVariant();
@@ -148,6 +158,7 @@ void QHtspEventModel::_addRow(QHtspEvent *event)
     }
 
     connect(event, SIGNAL(idChanged()), this, SLOT(_updateId()));
+    connect(event, SIGNAL(channelIdChanged()), this, SLOT(_updateChannel()));
     connect(event, SIGNAL(descriptionChanged()), this, SLOT(_updateDescription()));
     connect(event, SIGNAL(startChanged()), this, SLOT(_updateStart()));
     connect(event, SIGNAL(stopChanged()), this, SLOT(_updateStop()));
@@ -173,6 +184,13 @@ void QHtspEventModel::_updateId()
 {
     int row = m_events->indexOf((QHtspEvent*)QObject::sender());
     QModelIndex index = createIndex(row, 1);
+    emit dataChanged(index, index);
+}
+
+void QHtspEventModel::_updateChannel()
+{
+    int row = m_events->indexOf((QHtspEvent*)QObject::sender());
+    QModelIndex index = createIndex(row, 6);
     emit dataChanged(index, index);
 }
 

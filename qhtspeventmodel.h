@@ -18,7 +18,8 @@ public:
         DescriptionRole,
         StartRole,
         StopRole,
-        TitleRole
+        TitleRole,
+        ChannelRole
     };
 
     explicit QHtspEventModel(QHtspEventList *events = 0);
@@ -42,6 +43,7 @@ private slots:
     void _addRow(QHtspEvent *event);
     void _fetchMore();
     void _updateId();
+    void _updateChannel();
     void _updateDescription();
     void _updateStart();
     void _updateStop();
