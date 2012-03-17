@@ -9,11 +9,13 @@
 #include "qhtspmessage.h"
 
 class QHtsp;
+class QHtspChannel;
 
 class QHtspEvent : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(qint64 id READ id WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(QHtspChannel *channel READ channel)
     Q_PROPERTY(qint64 channelId READ channelId WRITE setChannelId NOTIFY channelIdChanged)
     Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
     Q_PROPERTY(QDateTime start READ start WRITE setStart NOTIFY startChanged)
@@ -26,6 +28,7 @@ public:
     QHtspEvent(const QHtspEvent &event, QObject *parent = 0);
 
     qint64 id();
+    QHtspChannel *channel();
     qint64 channelId();
     QString description();
     qint64 nextEventId();
@@ -58,6 +61,7 @@ signals:
 
 private:
     qint64 m_id;
+    QHtspChannel *m_channel;
     qint64 m_channelId;
     QString m_description;
     QHtsp *m_htsp;

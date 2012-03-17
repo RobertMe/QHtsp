@@ -1,16 +1,17 @@
 #include "qhtspevent.h"
 
 #include "qhtsp.h"
+#include "qhtspchannel.h"
 
 QHtspEvent::QHtspEvent(QHtsp *htsp, qint64 id, QObject *parent) :
-    QObject(parent), m_id(id), m_channelId(-1), m_htsp(htsp)
+    QObject(parent), m_id(id), m_channel(0), m_channelId(-1), m_htsp(htsp)
 {
     m_loaded = false;
     m_nextEventId = -1;
 }
 
 QHtspEvent::QHtspEvent(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_id(-1), m_channelId(-1), m_htsp(htsp)
+    QObject(parent), m_id(-1), m_channel(0), m_channelId(-1), m_htsp(htsp)
 {
     m_loaded = false;
     m_nextEventId = -1;
@@ -34,6 +35,14 @@ QHtspEvent::QHtspEvent(const QHtspEvent &event, QObject *parent) :
 qint64 QHtspEvent::id()
 {
     return m_id;
+}
+
+QHtspChannel *QHtspEvent::channel()
+{
+    if(!m_channel)
+        m_channel = m_htsp->channels()->find(channelId());
+
+    return m_channel;
 }
 
 qint64 QHtspEvent::channelId()
@@ -79,6 +88,8 @@ void QHtspEvent::setChannelId(qint64 channelId)
 {
     if(m_channelId == channelId)
         return;
+
+    m_channel = 0;
 
     m_channelId = channelId;
     emit channelIdChanged();
