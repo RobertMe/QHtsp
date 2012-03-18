@@ -22,7 +22,7 @@ public:
         ChannelRole
     };
 
-    explicit QHtspEventModel(QHtspEventList *events = 0);
+    explicit QHtspEventModel(QHtspEventList *events);
     
     bool canFetchMore(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;

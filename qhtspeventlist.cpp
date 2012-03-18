@@ -46,7 +46,6 @@ void QHtspEventList::fetchNextEvents(int count)
     if(!m_channel)
         return;
 
-
     m_channel->fetchNextEvents(count);
 }
 

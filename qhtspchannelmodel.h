@@ -22,7 +22,7 @@ public:
         EventRole
     };
 
-    explicit QHtspChannelModel(QHtspChannelList *channels = 0);
+    explicit QHtspChannelModel(QHtspChannelList *channels);
     
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
