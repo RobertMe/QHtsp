@@ -31,6 +31,16 @@ public:
     
 private:
     QHtspDvrEntryList *m_dvrEntries;
+
+private slots:
+    void _addRow(QHtspDvrEntry *dvrEntry);
+    void _updateId();
+    void _updateChannel();
+    void _updateState();
+    void _updateStart();
+    void _updateStop();
+    void _updateTitle();
+    void _removeRow(QHtspDvrEntry *dvrEntry);
 };
 
 #endif // QHTSPDVRENTRYMODEL_H

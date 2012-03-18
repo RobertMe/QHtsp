@@ -3,6 +3,9 @@
 QHtspDvrEntryModel::QHtspDvrEntryModel(QHtspDvrEntryList *dvrEnties) :
     QAbstractTableModel(dvrEnties), m_dvrEntries(dvrEnties)
 {
+    connect(m_dvrEntries, SIGNAL(added(QHtspDvrEntry*)), this, SLOT(_addRow(QHtspDvrEntry*)));
+    connect(m_dvrEntries, SIGNAL(removing(QHtspDvrEntry*)), this, SLOT(_removeRow(QHtspDvrEntry*)));
+
     QHash<int, QByteArray> roles;
     roles[IdRole] = "id";
     roles[ChannelRole] = "channel";
@@ -117,4 +120,78 @@ int QHtspDvrEntryModel::rowCount(const QModelIndex &/*parent*/) const
 QHtspDvrEntry *QHtspDvrEntryModel::getDvrEntryById(int id)
 {
     return m_dvrEntries->find(id);
+}
+
+void QHtspDvrEntryModel::_addRow(QHtspDvrEntry *dvrEntry)
+{
+    int rows = rowCount();
+    beginInsertRows(QModelIndex(), rows, rows);
+    endInsertRows();
+
+    connect(dvrEntry, SIGNAL(idChanged()), this, SLOT(_updateId()));
+    connect(dvrEntry, SIGNAL(channelChanged()), this, SLOT(_updateChannel()));
+    connect(dvrEntry, SIGNAL(stateChanged()), this, SLOT(_updateState()));
+    connect(dvrEntry, SIGNAL(startChanged()), this, SLOT(_updateStart()));
+    connect(dvrEntry, SIGNAL(stopChanged()), this, SLOT(_updateStop()));
+    connect(dvrEntry, SIGNAL(titleChanged()), this, SLOT(_updateTitle()));
+    if(dvrEntry->channel())
+        connect(dvrEntry->channel(), SIGNAL(nameChanged()), this, SLOT(_updateChannel()));
+}
+
+void QHtspDvrEntryModel::_updateId()
+{
+    int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
+    QModelIndex index = createIndex(row, 1);
+    emit dataChanged(index, index);
+}
+
+void QHtspDvrEntryModel::_updateChannel()
+{
+    int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
+    QModelIndex index = createIndex(row, 2);
+    emit dataChanged(index, index);
+}
+
+void QHtspDvrEntryModel::_updateState()
+{
+    int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
+    QModelIndex index = createIndex(row, 3);
+    emit dataChanged(index, index);
+}
+
+void QHtspDvrEntryModel::_updateStart()
+{
+    int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
+    QModelIndex index = createIndex(row, 4);
+    emit dataChanged(index, index);
+}
+
+void QHtspDvrEntryModel::_updateStop()
+{
+    int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
+    QModelIndex index = createIndex(row, 5);
+    emit dataChanged(index, index);
+}
+
+void QHtspDvrEntryModel::_updateTitle()
+{
+    int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
+    QModelIndex index = createIndex(row, 6);
+    emit dataChanged(index, index);
+}
+
+void QHtspDvrEntryModel::_removeRow(QHtspDvrEntry *dvrEntry)
+{
+    disconnect(dvrEntry, SIGNAL(idChanged()), this, SLOT(_updateId()));
+    disconnect(dvrEntry, SIGNAL(channelChanged()), this, SLOT(_updateChannel()));
+    disconnect(dvrEntry, SIGNAL(stateChanged()), this, SLOT(_updateState()));
+    disconnect(dvrEntry, SIGNAL(startChanged()), this, SLOT(_updateStart()));
+    disconnect(dvrEntry, SIGNAL(stopChanged()), this, SLOT(_updateStop()));
+    disconnect(dvrEntry, SIGNAL(titleChanged()), this, SLOT(_updateTitle()));
+    if(dvrEntry->channel())
+        disconnect(dvrEntry->channel(), SIGNAL(nameChanged()), this, SLOT(_updateChannel()));
+
+    int row = m_dvrEntries->indexOf(dvrEntry);
+    beginRemoveRows(QModelIndex(), row, row);
+    endRemoveRows();
 }
