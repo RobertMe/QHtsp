@@ -23,8 +23,8 @@ class QHtspChannel : public QObject
     Q_PROPERTY(qint64 number READ number WRITE setNumber NOTIFY numberChanged)
 
 public:
-    explicit QHtspChannel(QHtsp *htsp = 0, QObject *parent = 0);
-    QHtspChannel(QHtspMessage &message, QHtsp *htsp = 0, QObject *parent = 0);
+    explicit QHtspChannel(QHtsp *htsp, QObject *parent = 0);
+    QHtspChannel(QHtspMessage &message, QHtsp *htsp, QObject *parent = 0);
     QHtspChannel(const QHtspChannel &channel, QObject *parent = 0);
 
     QHtspEvent *event();

@@ -21,7 +21,7 @@ class QHtspEpgQuery : public QObject
     Q_PROPERTY(QHtspTag *tag READ tag WRITE setTag)
 
 public:
-    explicit QHtspEpgQuery(QHtsp *htsp = 0, QObject *parent = 0);
+    explicit QHtspEpgQuery(QHtsp *htsp, QObject *parent = 0);
     QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent);
     
     QHtspChannel *channel();

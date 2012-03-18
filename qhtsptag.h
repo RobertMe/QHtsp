@@ -20,8 +20,8 @@ class QHtspTag : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
 
 public:
-    explicit QHtspTag(QHtsp *htsp = 0, QObject *parent = 0);
-    QHtspTag(QHtspMessage &message, QHtsp *htsp = 0, QObject *parent = 0);
+    explicit QHtspTag(QHtsp *htsp, QObject *parent = 0);
+    QHtspTag(QHtspMessage &message, QHtsp *htsp, QObject *parent = 0);
     QHtspTag(const QHtspTag &tag, QObject *parent = 0);
     
     QHtspChannelList *channels();

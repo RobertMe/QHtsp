@@ -42,18 +42,14 @@ QHtspEvent *QHtspChannel::event()
 {
     if(m_eventId >= 0 && (!m_event || m_event->id() != m_eventId))
     {
-        if(m_htsp)
-            m_event = m_htsp->events()->find(m_eventId);
+        m_event = m_htsp->events()->find(m_eventId);
 
         if(!m_event)
         {
             m_event = new QHtspEvent(m_htsp, m_eventId, this);
 
-            if(m_htsp)
-            {
-                m_htsp->events()->add(m_event);
-                m_htsp->getEvent(m_eventId);
-            }
+            m_htsp->events()->add(m_event);
+            m_htsp->getEvent(m_eventId);
         }
 
         if(events()->count() == 0)
@@ -110,8 +106,7 @@ void QHtspChannel::setEventId(qint64 eventId)
 
     if(m_event)
     {
-        if(m_htsp)
-            m_htsp->events()->remove(m_event);
+        m_htsp->events()->remove(m_event);
 
         events()->remove(m_event);
         delete m_event;
@@ -155,9 +150,6 @@ void QHtspChannel::setNumber(qint64 number)
 
 void QHtspChannel::fetchNextEvents(int count)
 {
-    if(!m_htsp)
-        return;
-
     m_htsp->getEvents(events()->at(events()->count()-1)->nextEventId(), count - 1, events());
 }
 
