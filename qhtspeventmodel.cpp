@@ -23,7 +23,7 @@ QHtspEventModel::QHtspEventModel(QHtspEventList *events) :
 
 bool QHtspEventModel::canFetchMore(const QModelIndex &/*parent*/) const
 {
-    if(m_events->count() == 0)
+    if(!m_events->channel() || m_events->count() == 0)
         return false;
 
     return m_events->at(m_events->count()-1)->nextEventId() > 0;
@@ -98,7 +98,8 @@ QVariant QHtspEventModel::data(const QModelIndex &index, int role) const
 void QHtspEventModel::fetchMore(const QModelIndex &/*parent*/)
 {
     if(!m_fakeRowCount)
-        m_events->fetchNextEvents(5);
+        m_events->channel()->fetchNextEvents(5);
+
     beginInsertRows(QModelIndex(), rowCount(), rowCount()+5);
     m_fakeRowCount += 5;
     endInsertRows();
@@ -177,7 +178,7 @@ void QHtspEventModel::_fetchMore()
         return;
     }
 
-    m_events->fetchNextEvents(m_fakeRowCount);
+    m_events->channel()->fetchNextEvents(m_fakeRowCount);
 }
 
 void QHtspEventModel::_updateId()

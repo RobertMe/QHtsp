@@ -31,6 +31,11 @@ void QHtspEventList::beginGroupAdd()
     emit groupAddBegun();
 }
 
+QHtspChannel *QHtspEventList::channel()
+{
+    return m_channel;
+}
+
 int QHtspEventList::count()
 {
     return m_events.count();
@@ -39,14 +44,6 @@ int QHtspEventList::count()
 void QHtspEventList::endGroupAdd()
 {
     emit groupAddEnded();
-}
-
-void QHtspEventList::fetchNextEvents(int count)
-{
-    if(!m_channel)
-        return;
-
-    m_channel->fetchNextEvents(count);
 }
 
 int QHtspEventList::indexOf(QHtspEvent *event)

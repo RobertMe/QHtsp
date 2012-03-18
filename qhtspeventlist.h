@@ -16,8 +16,8 @@ public:
     explicit QHtspEventList(QHtspChannel *channel = 0, QObject *parent = 0);
     
     QHtspEvent *at(int i);
+    QHtspChannel *channel();
     int count();
-    void fetchNextEvents(int count);
     int indexOf(QHtspEvent *event);
     QHtspEvent *find(qint64 id);
 
