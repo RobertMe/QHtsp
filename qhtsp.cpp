@@ -15,6 +15,11 @@ QHtspChannelList *QHtsp::channels()
     return &m_channels;
 }
 
+QHtspDvrEntryList *QHtsp::dvrEntries()
+{
+    return &m_dvrEntries;
+}
+
 QHtspEventList *QHtsp::events()
 {
     return &m_events;
@@ -168,6 +173,22 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
     else if(method == "tagDelete")
     {
         m_tags.remove(message.getInt64("tagId"));
+    }
+    else if(method == "dvrEntryAdd")
+    {
+        m_dvrEntries.add(this, message);
+    }
+    else if(method == "dvrEntryUpdate")
+    {
+        QHtspDvrEntry *dvrEntry = m_dvrEntries.find(message.getInt64("id"));
+        if(dvrEntry)
+            dvrEntry->update(message);
+        else
+            m_dvrEntries.add(this, message);
+    }
+    else if(method == "dvrEntryDelete")
+    {
+        m_dvrEntries.remove(message.getInt64("id"));
     }
     else
     {

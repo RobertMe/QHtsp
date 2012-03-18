@@ -9,6 +9,7 @@
 #include "qhtsp_global.h"
 #include "qhtspchannellist.h"
 #include "qhtspconnection.h"
+#include "qhtspdvrentrylist.h"
 #include "qhtspepgquery.h"
 #include "qhtspeventlist.h"
 #include "qhtspmessage.h"
@@ -21,6 +22,7 @@ public:
     QHtsp(QObject *parent = 0);
 
     QHtspChannelList *channels();
+    QHtspDvrEntryList *dvrEntries();
     QHtspEventList *events();
     int htspVersion();
     QString serverName();
@@ -42,6 +44,7 @@ signals:
 private:
     QHtspChannelList m_channels;
     QHtspConnection *m_connection;
+    QHtspDvrEntryList m_dvrEntries;
     QHtspEventList m_events;
     QHtspTagList m_tags;
 
