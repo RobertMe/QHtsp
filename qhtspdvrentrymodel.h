@@ -1,0 +1,36 @@
+#ifndef QHTSPDVRENTRYMODEL_H
+#define QHTSPDVRENTRYMODEL_H
+
+#include <QAbstractTableModel>
+
+#include "qhtspdvrentry.h"
+#include "qhtspdvrentrylist.h"
+
+class QHtspDvrEntryModel : public QAbstractTableModel
+{
+    Q_OBJECT
+    Q_PROPERTY(int count READ rowCount)
+public:
+    enum DvrEntryRoles {
+        IdRole = Qt::UserRole + 1,
+        ChannelRole,
+        StateRole,
+        StartRole,
+        StopRole,
+        TitleRole
+    };
+
+    explicit QHtspDvrEntryModel(QHtspDvrEntryList *dvrEnties);
+
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+
+    Q_INVOKABLE QHtspDvrEntry *getDvrEntryById(int id);
+    
+private:
+    QHtspDvrEntryList *m_dvrEntries;
+};
+
+#endif // QHTSPDVRENTRYMODEL_H

@@ -14,7 +14,8 @@ HEADERS += \
     QHtsp/qhtspeventmodel.h \
     QHtsp/qhtspepgquery.h \
     QHtsp/qhtspdvrentry.h \
-    QHtsp/qhtspdvrentrylist.h
+    QHtsp/qhtspdvrentrylist.h \
+    QHtsp/qhtspdvrentrymodel.h
 
 SOURCES += \
     QHtsp/qhtspeventlist.cpp \
@@ -31,4 +32,5 @@ SOURCES += \
     QHtsp/qhtspeventmodel.cpp \
     QHtsp/qhtspepgquery.cpp \
     QHtsp/qhtspdvrentry.cpp \
-    QHtsp/qhtspdvrentrylist.cpp
+    QHtsp/qhtspdvrentrylist.cpp \
+    QHtsp/qhtspdvrentrymodel.cpp
