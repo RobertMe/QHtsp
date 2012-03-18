@@ -12,7 +12,8 @@ HEADERS += \
     QHtsp/qhtsptag.h \
     QHtsp/qhtspmessage.h \
     QHtsp/qhtspeventmodel.h \
-    QHtsp/qhtspepgquery.h
+    QHtsp/qhtspepgquery.h \
+    QHtsp/qhtspdvrentry.h
 
 SOURCES += \
     QHtsp/qhtspeventlist.cpp \
@@ -27,4 +28,5 @@ SOURCES += \
     QHtsp/qhtsptag.cpp \
     QHtsp/qhtspmessage.cpp \
     QHtsp/qhtspeventmodel.cpp \
-    QHtsp/qhtspepgquery.cpp
+    QHtsp/qhtspepgquery.cpp \
+    QHtsp/qhtspdvrentry.cpp
