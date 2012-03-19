@@ -148,6 +148,11 @@ void QHtspDvrEntry::setTitle(QString title)
     emit titleChanged();
 }
 
+void QHtspDvrEntry::remove()
+{
+    m_htsp->deleteDvrEntry(id());
+}
+
 void QHtspDvrEntry::update(QHtspMessage &message)
 {
     _parseMessage(message);
