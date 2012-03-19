@@ -54,6 +54,7 @@ public:
     void setStop(QDateTime stop);
     void setTitle(QString title);
 
+    Q_INVOKABLE void cancel();
     Q_INVOKABLE void remove();
     void update(QHtspMessage &message);
 
