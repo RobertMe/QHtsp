@@ -13,6 +13,7 @@ class QHtsp;
 class QHtspDvrEntry : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(State)
     Q_PROPERTY(QHtspChannel *channel READ channel NOTIFY channelChanged)
     Q_PROPERTY(qint64 channelId READ channelId WRITE setChannelId NOTIFY channelChanged)
     Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
