@@ -50,7 +50,7 @@ void QHtsp::addDvrEntry(qint64 eventId)
     QHtspMessage addEntry;
     addEntry.addString("method", "addDvrEntry");
     addEntry.addInt64("eventId", eventId);
-    m_connection->sendMessage(addEntry);
+    m_connection->sendMessage(addEntry, this, "_handleAddDvrEntry");
 }
 
 void QHtsp::authenticate(QString username, QString password)
@@ -194,6 +194,23 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
     {
         qDebug() << "Unknown method " << method;
     }
+}
+
+void QHtsp::_handleAddDvrEntry(QHtspMessage &message)
+{
+    int dvrEntryId;
+    bool ok;
+    QHtspDvrEntry *dvrEntry;
+
+    dvrEntryId = message.getInt64("id", &ok);
+    if(!ok)
+        return;
+
+    dvrEntry = dvrEntries()->find(dvrEntryId);
+    if(!dvrEntry)
+        return;
+
+    emit dvrEntryAdded(dvrEntry);
 }
 
 void QHtsp::_handleEpgQuery(QHtspMessage &message)

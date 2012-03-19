@@ -39,6 +39,7 @@ public:
 
 signals:
     void connected();
+    void dvrEntryAdded(QHtspDvrEntry *dvrEntry);
     void syncCompleted();
 
 private:
@@ -63,6 +64,7 @@ private slots:
     void _connectionConnected();
     void _invoke(QString method, QHtspMessage &message);
 
+    void _handleAddDvrEntry(QHtspMessage &message);
     void _handleEpgQuery(QHtspMessage &message);
     void _handleGetEvent(QHtspMessage &message);
     void _handleGetEvents(QHtspMessage &message);
