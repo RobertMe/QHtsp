@@ -66,6 +66,14 @@ void QHtsp::authenticate(QString username, QString password)
     m_connection->sendMessage(authenticate);
 }
 
+void QHtsp::cancelDvrEntry(qint64 id)
+{
+    QHtspMessage cancelEntry;
+    cancelEntry.addString("method", "cancelDvrEntry");
+    cancelEntry.addInt64("id", id);
+    m_connection->sendMessage(cancelEntry);
+}
+
 void QHtsp::connectToServer(QString clientName, QString clientVersion, uint preferredHtspVersion, QString hostName, quint16 port)
 {
     if(m_connection)
