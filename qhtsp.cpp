@@ -125,6 +125,14 @@ void QHtsp::queryEpg(QHtspEpgQuery *query)
     m_epgQueries[seq] = query;
 }
 
+void QHtsp::deleteDvrEntry(qint64 id)
+{
+    QHtspMessage deleteEntry;
+    deleteEntry.addString("method", "deleteDvrEntry");
+    deleteEntry.addInt64("id", id);
+    m_connection->sendMessage(deleteEntry);
+}
+
 void QHtsp::_connectionConnected()
 {
     QHtspMessage hello;
