@@ -79,8 +79,16 @@ void QHtspConnection::_handleMessage(QByteArray payload)
     seq = message.getInt64("seq");
     if(seq)
     {
-        QByteArray member = m_callbacks[seq].member.toAscii();
-        QMetaObject::invokeMethod(m_callbacks[seq].receiver, member, Qt::DirectConnection, Q_ARG(QHtspMessage&, message));
+        qint64 noAccess = message.getInt64("noaccess");
+        if(noAccess)
+        {
+            emit accessDenied();
+        }
+        else
+        {
+            QByteArray member = m_callbacks[seq].member.toAscii();
+            QMetaObject::invokeMethod(m_callbacks[seq].receiver, member, Qt::DirectConnection, Q_ARG(QHtspMessage&, message));
+        }
     }
     else
     {

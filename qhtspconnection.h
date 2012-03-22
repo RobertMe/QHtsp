@@ -37,6 +37,7 @@ public:
     int sendMessage(QHtspMessage &message, QObject *receiver, QString member);
 
 signals:
+    void accessDenied();
     void connected();
     void invoke(QString method, QHtspMessage &message);
 

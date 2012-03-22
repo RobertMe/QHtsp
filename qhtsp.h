@@ -40,6 +40,7 @@ public:
     void queryEpg(QHtspEpgQuery *query);
 
 signals:
+    void accessDenied();
     void connected();
     void dvrEntryAdded(QHtspDvrEntry *dvrEntry);
     void syncCompleted();

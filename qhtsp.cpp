@@ -86,6 +86,7 @@ void QHtsp::connectToServer(QString clientName, QString clientVersion, uint pref
     m_connection = new QHtspConnection(this);
     connect(m_connection, SIGNAL(connected()), this, SLOT(_connectionConnected()));
     connect(m_connection, SIGNAL(invoke(QString,QHtspMessage&)), this, SLOT(_invoke(QString,QHtspMessage&)));
+    connect(m_connection, SIGNAL(accessDenied()), this, SIGNAL(accessDenied()));
     m_connection->setHostName(hostName);
     m_connection->setPort(port);
     m_connection->connectToServer();
