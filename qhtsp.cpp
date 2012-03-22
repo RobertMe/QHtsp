@@ -238,7 +238,7 @@ void QHtsp::_handleEpgQuery(QHtspMessage &message)
     bool ok;
 
     seq = message.getInt64("seq");
-    query = m_epgQueries[seq];
+    query = m_epgQueries.take(seq);
     if(!query)
         return;
 
@@ -265,7 +265,7 @@ void QHtsp::_handleEpgQuery(QHtspMessage &message)
 void QHtsp::_handleGetEvent(QHtspMessage &message)
 {
     int seq = message.getInt64("seq");
-    QHtspEvent *event = events()->find(m_requestedEvents[seq]);
+    QHtspEvent *event = events()->find(m_requestedEvents.take(seq));
     if(!event)
         return;
 
@@ -278,7 +278,7 @@ void QHtsp::_handleGetEvents(QHtspMessage &message)
     QList<QHtspMessage*> *messages;
     QHtspEventList *eventList;
 
-    eventList = m_requestedEventLists[message.getInt64("seq")];
+    eventList = m_requestedEventLists.take(message.getInt64("seq"));
     if(!eventList)
         return;
 
