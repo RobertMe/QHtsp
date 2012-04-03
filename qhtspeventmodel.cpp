@@ -18,6 +18,7 @@ QHtspEventModel::QHtspEventModel(QHtspEventList *events) :
     roles[StopRole] = "stop";
     roles[TitleRole] = "title";
     roles[ChannelRole] = "channel";
+    roles[StartDateRole] = "startDate";
     setRoleNames(roles);
 }
 
@@ -90,6 +91,10 @@ QVariant QHtspEventModel::data(const QModelIndex &index, int role) const
     else if(role == ChannelRole)
     {
         result = event->channel() ? event->channel()->name() : "";
+    }
+    else if(role == StartDateRole)
+    {
+        result = event->start().date();
     }
 
     return result;

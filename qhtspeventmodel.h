@@ -19,7 +19,8 @@ public:
         StartRole,
         StopRole,
         TitleRole,
-        ChannelRole
+        ChannelRole,
+        StartDateRole
     };
 
     explicit QHtspEventModel(QHtspEventList *events);
