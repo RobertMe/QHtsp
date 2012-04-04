@@ -10,6 +10,46 @@
 #include "qhtspeventmodel.h"
 
 class QHtsp;
+class QHtspChannelData : public QObject, public QSharedData
+{
+    Q_OBJECT
+
+public:
+    explicit QHtspChannelData(QHtspChannel *channel, QHtsp *htsp, QObject *parent = 0);
+    QHtspChannelData(const QHtspChannelData &other);
+    ~QHtspChannelData() { }
+
+    QHtspEventList *events;
+    qint64 eventId;
+    QHtsp *htsp;
+    QString iconUrl;
+    qint64 id;
+    QString name;
+    qint64 number;
+
+    QHtspEvent *event();
+    QHtspEventModel *eventsModel();
+
+    void setEventId(qint64 eventId);
+    void setIconUrl(QString url);
+    void setId(qint64 id);
+    void setName(QString name);
+    void setNumber(qint64 number);
+
+    void parseMessage(QHtspMessage &message);
+
+signals:
+    void eventIdChanged();
+    void iconUrlChanged();
+    void idChanged();
+    void nameChanged();
+    void numberChanged();
+
+private:
+    QHtspChannel *m_channel;
+    QHtspEvent *m_event;
+    QHtspEventModel *m_eventModel;
+};
 
 class QHtspChannel : public QObject
 {
@@ -53,20 +93,9 @@ signals:
     void numberChanged();
 
 private:
-    QHtspEvent *m_event;
-    QHtspEventList *m_events;
-    QHtspEventModel *m_eventModel;
-    qint64 m_eventId;
-    QHtsp *m_htsp;
-    QString m_iconUrl;
-    qint64 m_id;
-    QString m_name;
-    qint64 m_number;
+    QExplicitlySharedDataPointer<QHtspChannelData> d;
 
-    bool m_blockChanged;
-
-    void _parseMessage(QHtspMessage &message);
-    void _emitChanged();
+    void _connectSignals();
 };
 
 #endif // QHTSPCHANNEL_H

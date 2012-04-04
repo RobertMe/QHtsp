@@ -28,7 +28,8 @@ SOURCES += qhtspconnection.cpp \
     qhtspepgquery.cpp \
     qhtspdvrentry.cpp \
     qhtspdvrentrylist.cpp \
-    qhtspdvrentrymodel.cpp
+    qhtspdvrentrymodel.cpp \
+    qhtspchanneldata.cpp
 
 HEADERS += qhtspconnection.h \
     qhtsp_global.h \
