@@ -12,7 +12,15 @@ QHtspChannelData::QHtspChannelData(QHtspChannel *channel, QHtsp *htsp, QObject *
 QHtspChannelData::QHtspChannelData(const QHtspChannelData &other)
     : QObject(0), QSharedData(other), events(new QHtspEventList(other.m_channel, this)), m_eventModel(0)
 {
+    m_channel = other.m_channel;
     m_event = 0;
+    events = other.events;
+    eventId = other.eventId;
+    htsp = other.htsp;
+    iconUrl = other.iconUrl;
+    id = other.id;
+    name = other.name;
+    number = other.number;
 }
 
 QHtspEvent *QHtspChannelData::event()
