@@ -2,14 +2,14 @@
 
 #include "qhtsp.h"
 
-QHtspEpgQuery::QHtspEpgQuery(QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_eventsModel(0)
+QHtspEpgQuery::QHtspEpgQuery(QHtsp *htsp, QObject */*parent*/)
+    : m_eventsModel(0)
 {
-    d = new QHtspEpgQueryData(htsp, parent);
+    d = new QHtspEpgQueryData(htsp);
 }
 
-QHtspEpgQuery::QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent) :
-    QObject(parent), m_eventsModel(0)
+QHtspEpgQuery::QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject */*parent*/)
+    : QObject(0), m_eventsModel(0)
 {
     d = epgQuery.d;
 }

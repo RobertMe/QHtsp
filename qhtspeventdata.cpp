@@ -2,13 +2,13 @@
 
 #include "qhtsp.h"
 
-QHtspEventData::QHtspEventData(QHtsp *htsp, int id, QObject *parent) :
-    QObject(parent), id(id), channelId(-1), htsp(htsp), nextEventId(-1), m_channel(0), m_loaded(false)
+QHtspEventData::QHtspEventData(QHtsp *htsp, int id) :
+    id(id), channelId(-1), htsp(htsp), nextEventId(-1), m_channel(0), m_loaded(false)
 {
 }
 
-QHtspEventData::QHtspEventData(const QHtspEventData &other, QObject *parent) :
-    QObject(parent), QSharedData(other), id(other.id), channelId(other.channelId), description(other.description),
+QHtspEventData::QHtspEventData(const QHtspEventData &other) :
+    QObject(0), QSharedData(other), id(other.id), channelId(other.channelId), description(other.description),
     htsp(other.htsp), nextEventId(other.nextEventId), start(other.start), stop(other.stop), title(other.title),
     m_channel(other.m_channel), m_loaded(other.m_loaded)
 {

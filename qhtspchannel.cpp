@@ -5,14 +5,14 @@
 QHtspChannel::QHtspChannel(QHtsp *htsp, QObject *parent) :
     QObject(parent)
 {
-    d = new QHtspChannelData(this, htsp, parent);
+    d = new QHtspChannelData(this, htsp);
     _connectSignals();
 }
 
 QHtspChannel::QHtspChannel(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
     QObject(parent)
 {
-    d = new QHtspChannelData(this, htsp, parent);
+    d = new QHtspChannelData(this, htsp);
     d->parseMessage(message);
     _connectSignals();
 

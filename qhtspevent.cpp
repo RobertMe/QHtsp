@@ -6,14 +6,14 @@
 QHtspEvent::QHtspEvent(QHtsp *htsp, qint64 id, QObject *parent) :
     QObject(parent)
 {
-    d = new QHtspEventData(htsp, id, parent);
+    d = new QHtspEventData(htsp, id);
     _connectSignals();
 }
 
 QHtspEvent::QHtspEvent(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
     QObject(parent)
 {
-    d = new QHtspEventData(htsp, -1, parent);
+    d = new QHtspEventData(htsp, -1);
     d->parseMessage(message);
     _connectSignals();
 }

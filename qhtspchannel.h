@@ -15,7 +15,7 @@ class QHtspChannelData : public QObject, public QSharedData
     Q_OBJECT
 
 public:
-    explicit QHtspChannelData(QHtspChannel *channel, QHtsp *htsp, QObject *parent = 0);
+    explicit QHtspChannelData(QHtspChannel *channel, QHtsp *htsp);
     QHtspChannelData(const QHtspChannelData &other);
     ~QHtspChannelData() { }
 

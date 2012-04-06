@@ -2,13 +2,13 @@
 
 #include "qhtsp.h"
 
-QHtspTagData::QHtspTagData(QHtsp *htsp, QObject *parent) :
-    QObject(parent), channels(new QHtspChannelList(this)), htsp(htsp)
+QHtspTagData::QHtspTagData(QHtsp *htsp) :
+    channels(new QHtspChannelList(this)), htsp(htsp)
 {
 }
 
-QHtspTagData::QHtspTagData(const QHtspTagData &other, QObject *parent) :
-    QObject(parent), QSharedData(other), channels(new QHtspChannelList(other.channels)), htsp(other.htsp),
+QHtspTagData::QHtspTagData(const QHtspTagData &other) :
+    QObject(0), QSharedData(other), channels(new QHtspChannelList(other.channels)), htsp(other.htsp),
     iconUrl(other.iconUrl), id(other.id), name(other.name)
 {
 }

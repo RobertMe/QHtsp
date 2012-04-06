@@ -17,8 +17,8 @@ class QHtspEpgQueryData : public QObject, public QSharedData
     Q_OBJECT
 
 public:
-    QHtspEpgQueryData(QHtsp *htsp, QObject *parent = 0);
-    QHtspEpgQueryData(const QHtspEpgQueryData &other, QObject *parent = 0);
+    QHtspEpgQueryData(QHtsp *htsp);
+    QHtspEpgQueryData(const QHtspEpgQueryData &other);
     ~QHtspEpgQueryData() { }
 
     QHtspChannel *channel;
@@ -39,7 +39,7 @@ class QHtspEpgQuery : public QObject
 
 public:
     explicit QHtspEpgQuery(QHtsp *htsp, QObject *parent = 0);
-    QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent);
+    QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent = 0);
     
     QHtspChannel *channel();
     QHtspEventList *events();

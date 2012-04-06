@@ -18,8 +18,8 @@ class QHtspEventData : public QObject, public QSharedData
     Q_OBJECT
 
 public:
-    QHtspEventData(QHtsp *htsp, int id = -1, QObject *parent = 0);
-    QHtspEventData(const QHtspEventData &other, QObject *parent = 0);
+    QHtspEventData(QHtsp *htsp, int id = -1);
+    QHtspEventData(const QHtspEventData &other);
     ~QHtspEventData() { }
 
     qint64 id;

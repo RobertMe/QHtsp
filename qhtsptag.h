@@ -16,8 +16,8 @@ class QHtspTagData : public QObject, public QSharedData
     Q_OBJECT
 
 public:
-    QHtspTagData(QHtsp *htsp, QObject *parent = 0);
-    QHtspTagData(const QHtspTagData &other, QObject *parent = 0);
+    QHtspTagData(QHtsp *htsp);
+    QHtspTagData(const QHtspTagData &other);
     ~QHtspTagData() { }
 
     QHtspChannelList *channels;

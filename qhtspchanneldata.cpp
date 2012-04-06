@@ -2,15 +2,15 @@
 
 #include "qhtsp.h"
 
-QHtspChannelData::QHtspChannelData(QHtspChannel *channel, QHtsp *htsp, QObject *parent)
-    : QObject(parent), events(new QHtspEventList(channel, this)), htsp(htsp), m_eventModel(0)
+QHtspChannelData::QHtspChannelData(QHtspChannel *channel, QHtsp *htsp)
+    : events(new QHtspEventList(channel, this)), htsp(htsp), m_eventModel(0)
 {
     m_channel = channel;
     m_event = 0;
 }
 
 QHtspChannelData::QHtspChannelData(const QHtspChannelData &other)
-    : QObject(0), QSharedData(other), events(new QHtspEventList(other.m_channel, this)), m_eventModel(0)
+    : QSharedData(other), events(new QHtspEventList(other.m_channel, this)), m_eventModel(0)
 {
     m_channel = other.m_channel;
     m_event = 0;
