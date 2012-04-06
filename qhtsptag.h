@@ -1,7 +1,9 @@
 #ifndef QHTSPTAG_H
 #define QHTSPTAG_H
 
+#include <QExplicitlySharedDataPointer>
 #include <QObject>
+#include <QSharedData>
 #include <QString>
 
 #include "qhtspchannellist.h"
@@ -9,6 +11,35 @@
 #include "qhtspmessage.h"
 
 class QHtsp;
+class QHtspTagData : public QObject, public QSharedData
+{
+    Q_OBJECT
+
+public:
+    QHtspTagData(QHtsp *htsp, QObject *parent = 0);
+    QHtspTagData(const QHtspTagData &other, QObject *parent = 0);
+    ~QHtspTagData() { }
+
+    QHtspChannelList *channels;
+    QHtsp *htsp;
+    QString iconUrl;
+    qint64 id;
+    QString name;
+
+    void setIconUrl(QString url);
+    void setId(qint64 id);
+    void setName(QString name);
+
+    void parseMessage(QHtspMessage &message);
+
+signals:
+    void iconUrlChanged();
+    void idChanged();
+    void nameChanged();
+
+private:
+    void _updateChannels(QList<qint64> *ids);
+};
 
 class QHtspTag : public QObject
 {
@@ -42,15 +73,10 @@ signals:
     void nameChanged();
 
 private:
-    QHtspChannelList *m_channels;
+    QExplicitlySharedDataPointer<QHtspTagData> d;
     QHtspChannelModel *m_channelsModel;
-    QHtsp *m_htsp;
-    QString m_iconUrl;
-    qint64 m_id;
-    QString m_name;
 
-    void _parseMessage(QHtspMessage &message);
-    void _updateChannels(QList<qint64> *ids);
+    void _connectSignals();
 };
 
 #endif // QHTSPTAG_H

@@ -31,7 +31,8 @@ SOURCES += qhtspconnection.cpp \
     qhtspdvrentrymodel.cpp \
     qhtspchanneldata.cpp \
     qhtspeventdata.cpp \
-    qhtspepgquerydata.cpp
+    qhtspepgquerydata.cpp \
+    qhtsptagdata.cpp
 
 HEADERS += qhtspconnection.h \
     qhtsp_global.h \
