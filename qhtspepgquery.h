@@ -1,6 +1,7 @@
 #ifndef QHTSPEPGQUERY_H
 #define QHTSPEPGQUERY_H
 
+#include <QExplicitlySharedDataPointer>
 #include <QObject>
 #include <QString>
 
@@ -10,6 +11,22 @@
 #include "qhtsptag.h"
 
 class QHtsp;
+
+class QHtspEpgQueryData : public QObject, public QSharedData
+{
+    Q_OBJECT
+
+public:
+    QHtspEpgQueryData(QHtsp *htsp, QObject *parent = 0);
+    QHtspEpgQueryData(const QHtspEpgQueryData &other, QObject *parent = 0);
+    ~QHtspEpgQueryData() { }
+
+    QHtspChannel *channel;
+    QHtspEventList *events;
+    QHtsp *htsp;
+    QString query;
+    QHtspTag *tag;
+};
 
 class QHtspEpgQuery : public QObject
 {
@@ -37,12 +54,8 @@ public:
     Q_INVOKABLE void run();
 
 private:
-    QHtspChannel *m_channel;
-    QHtspEventList *m_events;
+    QExplicitlySharedDataPointer<QHtspEpgQueryData> d;
     QHtspEventModel *m_eventsModel;
-    QHtsp *m_htsp;
-    QString m_query;
-    QHtspTag *m_tag;
 };
 
 #endif // QHTSPEPGQUERY_H

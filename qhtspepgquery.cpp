@@ -3,29 +3,25 @@
 #include "qhtsp.h"
 
 QHtspEpgQuery::QHtspEpgQuery(QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_channel(0), m_eventsModel(0), m_htsp(htsp), m_tag(0)
+    QObject(parent), m_eventsModel(0)
 {
-    m_events = new QHtspEventList(0, this);
+    d = new QHtspEpgQueryData(htsp, parent);
 }
 
 QHtspEpgQuery::QHtspEpgQuery(const QHtspEpgQuery &epgQuery, QObject *parent) :
     QObject(parent), m_eventsModel(0)
 {
-    m_channel = epgQuery.m_channel;
-    m_events = new QHtspEventList(m_channel, this);
-    m_htsp = epgQuery.m_htsp;
-    m_query = epgQuery.m_query;
-    m_tag = epgQuery.m_tag;
+    d = epgQuery.d;
 }
 
 QHtspChannel *QHtspEpgQuery::channel()
 {
-    return m_channel;
+    return d->channel;
 }
 
 QHtspEventList *QHtspEpgQuery::events()
 {
-    return m_events;
+    return d->events;
 }
 
 QHtspEventModel *QHtspEpgQuery::eventsModel()
@@ -38,30 +34,30 @@ QHtspEventModel *QHtspEpgQuery::eventsModel()
 
 QString QHtspEpgQuery::query()
 {
-    return m_query;
+    return d->query;
 }
 
 QHtspTag *QHtspEpgQuery::tag()
 {
-    return m_tag;
+    return d->tag;
 }
 
 void QHtspEpgQuery::setChannel(QHtspChannel *channel)
 {
-    m_channel = channel;
+    d->channel = channel;
 }
 
 void QHtspEpgQuery::setQuery(QString query)
 {
-    m_query = query;
+    d->query = query;
 }
 
 void QHtspEpgQuery::setTag(QHtspTag *tag)
 {
-    m_tag = tag;
+    d->tag = tag;
 }
 
 void QHtspEpgQuery::run()
 {
-    m_htsp->queryEpg(this);
+    d->htsp->queryEpg(this);
 }
