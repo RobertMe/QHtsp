@@ -1,15 +1,63 @@
 #ifndef QHTSPEVENT_H
 #define QHTSPEVENT_H
 
+#include <QDateTime>
+#include <QExplicitlySharedDataPointer>
 #include <QMetaType>
 #include <QObject>
-#include <QDateTime>
+#include <QSharedData>
 #include <QString>
 
 #include "qhtspmessage.h"
 
 class QHtsp;
 class QHtspChannel;
+
+class QHtspEventData : public QObject, public QSharedData
+{
+    Q_OBJECT
+
+public:
+    QHtspEventData(QHtsp *htsp, int id = -1, QObject *parent = 0);
+    QHtspEventData(const QHtspEventData &other, QObject *parent = 0);
+    ~QHtspEventData() { }
+
+    qint64 id;
+    qint64 channelId;
+    QString description;
+    QHtsp *htsp;
+    qint64 nextEventId;
+    QDateTime start;
+    QDateTime stop;
+    QString title;
+
+    void setId(qint64 id);
+    void setChannelId(qint64 channelId);
+    void setDescription(QString description);
+    void setNextEventId(qint64 nextEventId);
+    void setStart(QDateTime start);
+    void setStop(QDateTime stop);
+    void setTitle(QString title);
+
+    QHtspChannel *channel();
+
+    void parseMessage(QHtspMessage &message);
+
+signals:
+    void idChanged();
+    void channelIdChanged();
+    void descriptionChanged();
+    void nextEventIdChanged();
+    void startChanged();
+    void stopChanged();
+    void titleChanged();
+
+    void loaded();
+
+private:
+    QHtspChannel *m_channel;
+    bool m_loaded;
+};
 
 class QHtspEvent : public QObject
 {
@@ -48,7 +96,6 @@ public:
     void update(QHtspMessage &message);
 
 signals:
-    void changed(QHtspEvent *event);
     void idChanged();
     void channelIdChanged();
     void descriptionChanged();
@@ -60,20 +107,9 @@ signals:
     void loaded();
 
 private:
-    qint64 m_id;
-    QHtspChannel *m_channel;
-    qint64 m_channelId;
-    QString m_description;
-    QHtsp *m_htsp;
-    qint64 m_nextEventId;
-    QDateTime m_start;
-    QDateTime m_stop;
-    QString m_title;
+    QExplicitlySharedDataPointer<QHtspEventData> d;
 
-    bool m_loaded;
-
-    void _parseMessage(QHtspMessage &message);
-    
+    void _connectSignals();
 };
 
 #endif // QHTSPEVENT_H

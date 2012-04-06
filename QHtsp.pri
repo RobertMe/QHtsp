@@ -34,4 +34,5 @@ SOURCES += \
     QHtsp/qhtspdvrentry.cpp \
     QHtsp/qhtspdvrentrylist.cpp \
     QHtsp/qhtspdvrentrymodel.cpp \
-    QHtsp/qhtspchanneldata.cpp
+    QHtsp/qhtspchanneldata.cpp \
+    QHtsp/qhtspeventdata.cpp

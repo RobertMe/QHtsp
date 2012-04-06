@@ -4,198 +4,123 @@
 #include "qhtspchannel.h"
 
 QHtspEvent::QHtspEvent(QHtsp *htsp, qint64 id, QObject *parent) :
-    QObject(parent), m_id(id), m_channel(0), m_channelId(-1), m_htsp(htsp)
+    QObject(parent)
 {
-    m_loaded = false;
-    m_nextEventId = -1;
+    d = new QHtspEventData(htsp, id, parent);
+    _connectSignals();
 }
 
 QHtspEvent::QHtspEvent(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
-    QObject(parent), m_id(-1), m_channel(0), m_channelId(-1), m_htsp(htsp)
+    QObject(parent)
 {
-    m_loaded = false;
-    m_nextEventId = -1;
-    _parseMessage(message);
+    d = new QHtspEventData(htsp, -1, parent);
+    d->parseMessage(message);
+    _connectSignals();
 }
 
 QHtspEvent::QHtspEvent(const QHtspEvent &event, QObject *parent) :
     QObject(parent)
 {
-    m_id = event.m_id;
-    m_channelId = event.m_channelId;
-    m_description = event.m_description;
-    m_htsp = event.m_htsp;
-    m_nextEventId = event.m_nextEventId;
-    m_start = event.m_start;
-    m_stop = event.m_stop;
-    m_title = event.m_title;
-    m_loaded = event.m_loaded;
+    d = event.d;
 }
 
 qint64 QHtspEvent::id()
 {
-    return m_id;
+    return d->id;
 }
 
 QHtspChannel *QHtspEvent::channel()
 {
-    if(!m_channel)
-        m_channel = m_htsp->channels()->find(channelId());
-
-    return m_channel;
+    return d->channel();
 }
 
 qint64 QHtspEvent::channelId()
 {
-    return m_channelId;
+    return d->channelId;
 }
 
 QString QHtspEvent::description()
 {
-    return m_description;
+    return d->description;
 }
 
 qint64 QHtspEvent::nextEventId()
 {
-    return m_nextEventId;
+    return d->nextEventId;
 }
 
 QDateTime QHtspEvent::start()
 {
-    return m_start;
+    return d->start;
 }
 
 QDateTime QHtspEvent::stop()
 {
-    return m_stop;
+    return d->stop;
 }
 
 QString QHtspEvent::title()
 {
-    return m_title;
+    return d->title;
 }
 
 void QHtspEvent::setId(qint64 id)
 {
-    if(m_id == id)
-        return;
-
-    m_id = id;
-    emit idChanged();
+    d->setId(id);
 }
 
 void QHtspEvent::setChannelId(qint64 channelId)
 {
-    if(m_channelId == channelId)
-        return;
-
-    m_channel = 0;
-
-    m_channelId = channelId;
-    emit channelIdChanged();
+    d->setChannelId(channelId);
 }
 
 void QHtspEvent::setDescription(QString description)
 {
-    if(m_description == description)
-        return;
-
-    m_description = description;
-    emit descriptionChanged();
+    d->setDescription(description);
 }
 
 void QHtspEvent::setNextEventId(qint64 nextEventId)
 {
-    if(m_nextEventId == nextEventId)
-        return;
-
-    m_nextEventId = nextEventId;
-    emit nextEventIdChanged();
+    d->setNextEventId(nextEventId);
 }
 
 void QHtspEvent::setStart(QDateTime start)
 {
-    if(m_start == start)
-        return;
-
-    m_start = start;
-    emit startChanged();
+    d->setStart(start);
 }
 
 void QHtspEvent::setStop(QDateTime stop)
 {
-    if(m_stop == stop)
-        return;
-
-    m_stop = stop;
-    emit stopChanged();
+    d->setStop(stop);
 }
 
 void QHtspEvent::setTitle(QString title)
 {
-    if(m_title == title)
-        return;
-
-    m_title = title;
-    emit titleChanged();
+    d->setTitle(title);
 }
 
 bool QHtspEvent::record()
 {
-    if(!m_htsp)
+    if(!d->htsp)
         return false;
 
-    m_htsp->addDvrEntry(id());
+    d->htsp->addDvrEntry(id());
     return true;
 }
 
 void QHtspEvent::update(QHtspMessage &message)
 {
-    _parseMessage(message);
+    d->parseMessage(message);
 }
 
-void QHtspEvent::_parseMessage(QHtspMessage &message)
+void QHtspEvent::_connectSignals()
 {
-    qint64 id;
-    qint64 channelId;
-    QString description;
-    qint64 nextEventId;
-    qint64 start;
-    qint64 stop;
-    QString title;
-    bool ok;
-
-    id = message.getInt64("eventId", &ok);
-    if(ok)
-        setId(id);
-
-    channelId = message.getInt64("channelId", &ok);
-    if(ok)
-        setChannelId(channelId);
-
-    description = message.getString("description", &ok);
-    if(ok)
-        setDescription(description);
-
-    nextEventId = message.getInt64("nextEventId", &ok);
-    if(ok)
-        setNextEventId(nextEventId);
-
-    start = message.getInt64("start", &ok);
-    if(ok)
-        setStart(QDateTime::fromTime_t(start));
-
-    stop = message.getInt64("stop", &ok);
-    if(ok)
-        setStop(QDateTime::fromTime_t(stop));
-
-    title = message.getString("title", &ok);
-    if(ok)
-        setTitle(title);
-
-    if(!m_loaded)
-    {
-        m_loaded = true;
-        emit loaded();
-    }
+    connect(d.data(), SIGNAL(channelIdChanged()), this, SIGNAL(channelIdChanged()));
+    connect(d.data(), SIGNAL(descriptionChanged()), this, SIGNAL(descriptionChanged()));
+    connect(d.data(), SIGNAL(idChanged()), this, SIGNAL(idChanged()));
+    connect(d.data(), SIGNAL(loaded()), this, SIGNAL(loaded()));
+    connect(d.data(), SIGNAL(nextEventIdChanged()), this, SIGNAL(nextEventIdChanged()));
+    connect(d.data(), SIGNAL(startChanged()), this, SIGNAL(startChanged()));
+    connect(d.data(), SIGNAL(stopChanged()), this, SIGNAL(stopChanged()));
+    connect(d.data(), SIGNAL(titleChanged()), this, SIGNAL(titleChanged()));
 }
