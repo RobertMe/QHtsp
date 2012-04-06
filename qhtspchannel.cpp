@@ -22,6 +22,7 @@ QHtspChannel::QHtspChannel(const QHtspChannel& channel, QObject *parent) :
     QObject(parent)
 {
     d = channel.d;
+    _connectSignals();
 }
 
 QHtspEvent *QHtspChannel::event()

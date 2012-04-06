@@ -22,6 +22,7 @@ QHtspEvent::QHtspEvent(const QHtspEvent &event, QObject *parent) :
     QObject(parent)
 {
     d = event.d;
+    _connectSignals();
 }
 
 qint64 QHtspEvent::id()
