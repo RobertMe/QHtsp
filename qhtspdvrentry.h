@@ -2,13 +2,61 @@
 #define QHTSPDVRENTRY_H
 
 #include <QDateTime>
+#include <QExplicitlySharedDataPointer>
 #include <QObject>
+#include <QSharedData>
 #include <QString>
 
 #include "qhtspchannel.h"
 #include "qhtspmessage.h"
 
 class QHtsp;
+
+class QHtspDvrEntryData : public QObject, public QSharedData
+{
+    Q_OBJECT
+
+public:
+    explicit QHtspDvrEntryData(QHtsp *htsp);
+    QHtspDvrEntryData(const QHtspDvrEntryData &other);
+    ~QHtspDvrEntryData() { }
+
+    qint64 channelId;
+    QString description;
+    QString error;
+    QHtsp *htsp;
+    qint64 id;
+    quint16 state;
+    QDateTime start;
+    QDateTime stop;
+    QString title;
+
+    void setChannelId(qint64 channelId);
+    void setDescription(QString description);
+    void setError(QString error);
+    void setId(qint64 id);
+    void setState(quint16 state);
+    void setStart(QDateTime start);
+    void setStop(QDateTime stop);
+    void setTitle(QString title);
+
+    QHtspChannel *channel();
+
+    void parseMessage(QHtspMessage &message);
+
+signals:
+    void channelChanged();
+    void descriptionChanged();
+    void errorChanged();
+    void idChanged();
+    void stateChanged();
+    void startChanged();
+    void stopChanged();
+    void titleChanged();
+
+private:
+    QHtspChannel *m_channel;
+};
 
 class QHtspDvrEntry : public QObject
 {
@@ -70,18 +118,9 @@ signals:
     void titleChanged();
     
 private:
-    QHtspChannel *m_channel;
-    qint64 m_channelId;
-    QString m_description;
-    QString m_error;
-    QHtsp *m_htsp;
-    qint64 m_id;
-    State m_state;
-    QDateTime m_start;
-    QDateTime m_stop;
-    QString m_title;
+    QExplicitlySharedDataPointer<QHtspDvrEntryData> d;
 
-    void _parseMessage(QHtspMessage &message);
+    void _connectSignals();
 };
 
 #endif // QHTSPDVRENTRY_H

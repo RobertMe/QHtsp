@@ -37,4 +37,5 @@ SOURCES += \
     QHtsp/qhtspchanneldata.cpp \
     QHtsp/qhtspeventdata.cpp \
     QHtsp/qhtspepgquerydata.cpp \
-    QHtsp/qhtsptagdata.cpp
+    QHtsp/qhtsptagdata.cpp \
+    QHtsp/qhtspdvrentrydata.cpp
