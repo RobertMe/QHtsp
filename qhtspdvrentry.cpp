@@ -6,7 +6,6 @@ QHtspDvrEntry::QHtspDvrEntry(QHtsp *htsp, QObject *parent) :
     QObject(parent)
 {
     d = new QHtspDvrEntryData(htsp);
-    _connectSignals();
 }
 
 QHtspDvrEntry::QHtspDvrEntry(QHtspMessage &message, QHtsp *htsp, QObject *parent) :
