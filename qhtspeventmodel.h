@@ -33,6 +33,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     Q_INVOKABLE QHtspEvent *getEventById(int id);
+    Q_INVOKABLE QHtspEvent *getEventByIndex(int index);
 
 signals:
     

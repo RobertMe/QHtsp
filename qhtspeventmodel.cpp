@@ -149,6 +149,14 @@ QHtspEvent *QHtspEventModel::getEventById(int id)
     return m_events->find(id);
 }
 
+QHtspEvent *QHtspEventModel::getEventByIndex(int index)
+{
+    if(index >= m_events->count())
+        return 0;
+
+    return m_events->at(index);
+}
+
 void QHtspEventModel::_addRow(QHtspEvent *event)
 {
     int rows = m_events->count() - 1;
