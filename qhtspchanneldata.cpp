@@ -10,7 +10,7 @@ QHtspChannelData::QHtspChannelData(QHtspChannel *channel, QHtsp *htsp)
 }
 
 QHtspChannelData::QHtspChannelData(const QHtspChannelData &other)
-    : QSharedData(other), events(new QHtspEventList(other.m_channel, this)), m_eventModel(0)
+    : QObject(), QSharedData(other), events(new QHtspEventList(other.m_channel, this)), m_eventModel(0)
 {
     m_channel = other.m_channel;
     m_event = 0;
