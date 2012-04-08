@@ -26,6 +26,7 @@ public:
     qint64 channelId;
     QString description;
     QHtsp *htsp;
+    QString longDescription;
     qint64 nextEventId;
     QDateTime start;
     QDateTime stop;
@@ -34,6 +35,7 @@ public:
     void setId(qint64 id);
     void setChannelId(qint64 channelId);
     void setDescription(QString description);
+    void setLongDescription(QString description);
     void setNextEventId(qint64 nextEventId);
     void setStart(QDateTime start);
     void setStop(QDateTime stop);
@@ -47,6 +49,7 @@ signals:
     void idChanged();
     void channelIdChanged();
     void descriptionChanged();
+    void longDescriptionChanged();
     void nextEventIdChanged();
     void startChanged();
     void stopChanged();
@@ -66,6 +69,7 @@ class QHtspEvent : public QObject
     Q_PROPERTY(QHtspChannel *channel READ channel)
     Q_PROPERTY(qint64 channelId READ channelId WRITE setChannelId NOTIFY channelIdChanged)
     Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
+    Q_PROPERTY(QString longDescription READ longDescription WRITE setLongDescription NOTIFY longDescriptionChanged)
     Q_PROPERTY(QDateTime start READ start WRITE setStart NOTIFY startChanged)
     Q_PROPERTY(QDateTime stop READ stop WRITE setStop NOTIFY stopChanged)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
@@ -79,6 +83,7 @@ public:
     QHtspChannel *channel();
     qint64 channelId();
     QString description();
+    QString longDescription();
     qint64 nextEventId();
     QDateTime start();
     QDateTime stop();
@@ -87,6 +92,7 @@ public:
     void setId(qint64 id);
     void setChannelId(qint64 channelId);
     void setDescription(QString description);
+    void setLongDescription(QString description);
     void setNextEventId(qint64 nextEventId);
     void setStart(QDateTime start);
     void setStop(QDateTime stop);
@@ -99,6 +105,7 @@ signals:
     void idChanged();
     void channelIdChanged();
     void descriptionChanged();
+    void longDescriptionChanged();
     void nextEventIdChanged();
     void startChanged();
     void stopChanged();

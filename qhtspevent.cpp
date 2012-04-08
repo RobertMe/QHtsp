@@ -45,6 +45,11 @@ QString QHtspEvent::description()
     return d->description;
 }
 
+QString QHtspEvent::longDescription()
+{
+    return d->longDescription;
+}
+
 qint64 QHtspEvent::nextEventId()
 {
     return d->nextEventId;
@@ -78,6 +83,11 @@ void QHtspEvent::setChannelId(qint64 channelId)
 void QHtspEvent::setDescription(QString description)
 {
     d->setDescription(description);
+}
+
+void QHtspEvent::setLongDescription(QString description)
+{
+    d->setLongDescription(description);
 }
 
 void QHtspEvent::setNextEventId(qint64 nextEventId)
@@ -120,6 +130,7 @@ void QHtspEvent::_connectSignals()
     connect(d.data(), SIGNAL(descriptionChanged()), this, SIGNAL(descriptionChanged()));
     connect(d.data(), SIGNAL(idChanged()), this, SIGNAL(idChanged()));
     connect(d.data(), SIGNAL(loaded()), this, SIGNAL(loaded()));
+    connect(d.data(), SIGNAL(longDescriptionChanged()), this, SIGNAL(longDescriptionChanged()));
     connect(d.data(), SIGNAL(nextEventIdChanged()), this, SIGNAL(nextEventIdChanged()));
     connect(d.data(), SIGNAL(startChanged()), this, SIGNAL(startChanged()));
     connect(d.data(), SIGNAL(stopChanged()), this, SIGNAL(stopChanged()));

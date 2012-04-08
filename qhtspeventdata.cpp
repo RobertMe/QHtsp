@@ -51,6 +51,15 @@ void QHtspEventData::setDescription(QString description)
     emit descriptionChanged();
 }
 
+void QHtspEventData::setLongDescription(QString description)
+{
+    if(longDescription == description)
+        return;
+
+    longDescription = description;
+    emit longDescriptionChanged();
+}
+
 void QHtspEventData::setNextEventId(qint64 nextEventId)
 {
     if(this->nextEventId == nextEventId)
@@ -94,6 +103,7 @@ void QHtspEventData::parseMessage(QHtspMessage &message)
     qint64 id;
     qint64 channelId;
     QString description;
+    QString longDescription;
     qint64 nextEventId;
     qint64 start;
     qint64 stop;
@@ -111,6 +121,10 @@ void QHtspEventData::parseMessage(QHtspMessage &message)
     description = message.getString("description", &ok);
     if(ok)
         setDescription(description);
+
+    longDescription = message.getString("ext_text", &ok);
+    if(ok)
+        setLongDescription(longDescription);
 
     nextEventId = message.getInt64("nextEventId", &ok);
     if(ok)
