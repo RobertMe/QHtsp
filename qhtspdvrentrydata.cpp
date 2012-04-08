@@ -133,6 +133,8 @@ void QHtspDvrEntryData::parseMessage(QHtspMessage &message)
             setState(QHtspDvrEntry::Recording);
         else if(state == "scheduled")
             setState(QHtspDvrEntry::Scheduled);
+        else if(state == "missed")
+            setState(QHtspDvrEntry::Missed);
     }
 
     start = message.getInt64("start", &ok);

@@ -76,6 +76,7 @@ public:
     enum State {
         Completed,
         Invalid,
+        Missed,
         Recording,
         Scheduled
     };
