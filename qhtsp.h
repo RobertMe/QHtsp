@@ -25,6 +25,7 @@ public:
     QHtspDvrEntryList *dvrEntries();
     QHtspEventList *events();
     int htspVersion();
+    bool isSyncCompleted();
     QString serverName();
     QString serverVersion();
     QHtspTagList *tags();
@@ -57,6 +58,7 @@ private:
     QString m_clientVersion;
     QHash<qint64, QHtspEpgQuery*> m_epgQueries;
     int m_htspVersion;
+    bool m_isSyncCompleted;
     uint m_preferredHtspVersion;
     QHash<qint64, qint64> m_requestedEvents;
     QHash<qint64, QHtspEventList*> m_requestedEventLists;

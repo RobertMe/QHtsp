@@ -5,9 +5,8 @@
 #include "qhtspevent.h"
 
 QHtsp::QHtsp(QObject *parent) :
-    QObject(parent)
+    QObject(parent), m_connection(0), m_isSyncCompleted(false)
 {
-    m_connection = NULL;
 }
 
 QHtspChannelList *QHtsp::channels()
@@ -28,6 +27,11 @@ QHtspEventList *QHtsp::events()
 int QHtsp::htspVersion()
 {
     return m_htspVersion;
+}
+
+bool QHtsp::isSyncCompleted()
+{
+    return m_isSyncCompleted;
 }
 
 QString QHtsp::serverName()
@@ -157,6 +161,7 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
 {
     if(method == "initialSyncCompleted")
     {
+        m_isSyncCompleted = true;
         emit syncCompleted();
     }
     else if(method == "channelAdd")
