@@ -18,6 +18,10 @@
 class QHTSPSHARED_EXPORT QHtsp : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int htspVersion READ htspVersion NOTIFY connected)
+    Q_PROPERTY(QString serverName READ serverName NOTIFY connected)
+    Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY connected)
+
 public:
     QHtsp(QObject *parent = 0);
 
