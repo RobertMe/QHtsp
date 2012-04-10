@@ -122,6 +122,11 @@ QHtspDvrEntry *QHtspDvrEntryModel::getDvrEntryById(int id)
     return m_dvrEntries->find(id);
 }
 
+QHtspDvrEntry *QHtspDvrEntryModel::getDvrEntryByIndex(int index)
+{
+    return m_dvrEntries->at(index);
+}
+
 void QHtspDvrEntryModel::_addRow(QHtspDvrEntry *dvrEntry)
 {
     int rows = rowCount();

@@ -28,6 +28,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     Q_INVOKABLE QHtspDvrEntry *getDvrEntryById(int id);
+    Q_INVOKABLE QHtspDvrEntry *getDvrEntryByIndex(int index);
     
 private:
     QHtspDvrEntryList *m_dvrEntries;
