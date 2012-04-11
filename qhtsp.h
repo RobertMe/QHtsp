@@ -37,7 +37,7 @@ public:
     void addDvrEntry(qint64 eventId);
     void authenticate(QString username, QString password);
     void cancelDvrEntry(qint64 id);
-    void connectToServer(QString clientName, QString clientVersion, uint preferredHtspVersion, QString hostName, quint16 port = 9982);
+    virtual void connectToServer(QString clientName, QString clientVersion, uint preferredHtspVersion, QString hostName, quint16 port = 9982);
     void deleteDvrEntry(qint64 id);
     void enableAsync();
     void getEvent(qint64 eventId);
