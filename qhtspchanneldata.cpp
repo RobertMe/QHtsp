@@ -65,6 +65,7 @@ void QHtspChannelData::setEventId(qint64 eventId)
 
         events->remove(m_event);
         delete m_event;
+        m_event = 0;
     }
 
     emit eventIdChanged();
