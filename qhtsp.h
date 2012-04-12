@@ -51,11 +51,11 @@ signals:
     void syncCompleted();
 
 private:
-    QHtspChannelList m_channels;
+    QHtspChannelList *m_channels;
     QHtspConnection *m_connection;
-    QHtspDvrEntryList m_dvrEntries;
-    QHtspEventList m_events;
-    QHtspTagList m_tags;
+    QHtspDvrEntryList *m_dvrEntries;
+    QHtspEventList *m_events;
+    QHtspTagList *m_tags;
 
     QByteArray m_challenge;
     QString m_clientName;
@@ -71,6 +71,7 @@ private:
 
 private slots:
     void _connectionConnected();
+    void _createLists();
     void _invoke(QString method, QHtspMessage &message);
 
     void _handleAddDvrEntry(QHtspMessage &message);

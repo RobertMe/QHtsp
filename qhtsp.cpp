@@ -7,21 +7,22 @@
 QHtsp::QHtsp(QObject *parent) :
     QObject(parent), m_connection(0), m_isSyncCompleted(false)
 {
+    _createLists();
 }
 
 QHtspChannelList *QHtsp::channels()
 {
-    return &m_channels;
+    return m_channels;
 }
 
 QHtspDvrEntryList *QHtsp::dvrEntries()
 {
-    return &m_dvrEntries;
+    return m_dvrEntries;
 }
 
 QHtspEventList *QHtsp::events()
 {
-    return &m_events;
+    return m_events;
 }
 
 int QHtsp::htspVersion()
@@ -46,7 +47,7 @@ QString QHtsp::serverVersion()
 
 QHtspTagList *QHtsp::tags()
 {
-    return &m_tags;
+    return m_tags;
 }
 
 void QHtsp::addDvrEntry(qint64 eventId)
@@ -157,6 +158,14 @@ void QHtsp::_connectionConnected()
     m_connection->sendMessage(hello, this, "_handleHello");
 }
 
+void QHtsp::_createLists()
+{
+    m_channels = new QHtspChannelList(this);
+    m_dvrEntries = new QHtspDvrEntryList(this);
+    m_events = new QHtspEventList(0, this);
+    m_tags = new QHtspTagList(this);
+}
+
 void QHtsp::_invoke(QString method, QHtspMessage &message)
 {
     if(method == "initialSyncCompleted")
@@ -166,51 +175,51 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
     }
     else if(method == "channelAdd")
     {
-        m_channels.add(this, message);
+        m_channels->add(this, message);
     }
     else if(method == "channelUpdate")
     {
-        QHtspChannel *channel = m_channels.find(message.getInt64("channelId"));
+        QHtspChannel *channel = m_channels->find(message.getInt64("channelId"));
         if(channel)
             channel->update(message);
         else
-            m_channels.add(this, message);
+            m_channels->add(this, message);
     }
     else if(method == "channelDelete")
     {
-        m_channels.remove(message.getInt64("channelId"));
+        m_channels->remove(message.getInt64("channelId"));
     }
     else if(method == "tagAdd")
     {
-        m_tags.add(this, message);
+        m_tags->add(this, message);
     }
     else if(method == "tagUpdate")
     {
-        QHtspTag *tag = m_tags.find(message.getInt64("tagId"));
+        QHtspTag *tag = m_tags->find(message.getInt64("tagId"));
         if(tag)
             tag->update(message);
         else
-            m_tags.add(this, message);
+            m_tags->add(this, message);
     }
     else if(method == "tagDelete")
     {
-        m_tags.remove(message.getInt64("tagId"));
+        m_tags->remove(message.getInt64("tagId"));
     }
     else if(method == "dvrEntryAdd")
     {
-        m_dvrEntries.add(this, message);
+        m_dvrEntries->add(this, message);
     }
     else if(method == "dvrEntryUpdate")
     {
-        QHtspDvrEntry *dvrEntry = m_dvrEntries.find(message.getInt64("id"));
+        QHtspDvrEntry *dvrEntry = m_dvrEntries->find(message.getInt64("id"));
         if(dvrEntry)
             dvrEntry->update(message);
         else
-            m_dvrEntries.add(this, message);
+            m_dvrEntries->add(this, message);
     }
     else if(method == "dvrEntryDelete")
     {
-        m_dvrEntries.remove(message.getInt64("id"));
+        m_dvrEntries->remove(message.getInt64("id"));
     }
     else
     {
