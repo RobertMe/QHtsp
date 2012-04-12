@@ -50,6 +50,14 @@ void QHtspConnection::connectToServer()
     m_socket->connectToHost(hostName(), port());
 }
 
+void QHtspConnection::disconnectFromServer()
+{
+    if(!m_socket->isOpen())
+        return;
+
+    m_socket->disconnectFromHost();
+}
+
 int QHtspConnection::sendMessage(QHtspMessage &message)
 {
     quint64 seq = m_seq++;

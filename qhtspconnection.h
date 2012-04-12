@@ -33,6 +33,7 @@ public:
 
 
     void connectToServer();
+    void disconnectFromServer();
     int sendMessage(QHtspMessage &message);
     int sendMessage(QHtspMessage &message, QObject *receiver, QString member);
 
