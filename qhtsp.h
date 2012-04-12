@@ -38,6 +38,7 @@ public:
     void authenticate(QString username, QString password);
     void cancelDvrEntry(qint64 id);
     virtual void connectToServer(QString clientName, QString clientVersion, uint preferredHtspVersion, QString hostName, quint16 port = 9982);
+    virtual void disconnectFromServer(bool clear = true);
     void deleteDvrEntry(qint64 id);
     void enableAsync();
     void getEvent(qint64 eventId);
@@ -70,6 +71,7 @@ private:
     QString m_serverVersion;
 
 private slots:
+    void _clearLists();
     void _connectionConnected();
     void _createLists();
     void _invoke(QString method, QHtspMessage &message);

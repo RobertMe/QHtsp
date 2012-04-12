@@ -97,6 +97,21 @@ void QHtsp::connectToServer(QString clientName, QString clientVersion, uint pref
     m_connection->connectToServer();
 }
 
+void QHtsp::disconnectFromServer(bool clear)
+{
+    if(m_connection)
+    {
+        m_connection->disconnectFromServer();
+        delete m_connection;
+        m_connection = 0;
+    }
+
+    if(clear)
+    {
+        _clearLists();
+    }
+}
+
 void QHtsp::enableAsync()
 {
     QHtspMessage enableAsync;
@@ -145,6 +160,16 @@ void QHtsp::deleteDvrEntry(qint64 id)
     deleteEntry.addString("method", "deleteDvrEntry");
     deleteEntry.addInt64("id", id);
     m_connection->sendMessage(deleteEntry);
+}
+
+void QHtsp::_clearLists()
+{
+    delete m_tags;
+    delete m_events;
+    delete m_dvrEntries;
+    delete m_channels;
+
+    _createLists();
 }
 
 void QHtsp::_connectionConnected()
