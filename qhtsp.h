@@ -51,9 +51,11 @@ signals:
     void dvrEntryAdded(QHtspDvrEntry *dvrEntry);
     void syncCompleted();
 
+protected:
+    QHtspConnection *m_connection;
+
 private:
     QHtspChannelList *m_channels;
-    QHtspConnection *m_connection;
     QHtspDvrEntryList *m_dvrEntries;
     QHtspEventList *m_events;
     QHtspTagList *m_tags;
