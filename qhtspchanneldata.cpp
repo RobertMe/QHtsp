@@ -68,6 +68,18 @@ void QHtspChannelData::setEventId(qint64 eventId)
         m_event = 0;
     }
 
+    while(events->count() > 0)
+    {
+        QHtspEvent *event = events->at(0);
+
+        if(event->id() == eventId)
+            break;
+
+        htsp->events()->remove(event);
+        events->remove(event);
+        delete event;
+    }
+
     emit eventIdChanged();
 }
 
