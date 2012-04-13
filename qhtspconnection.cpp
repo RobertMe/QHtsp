@@ -60,6 +60,9 @@ void QHtspConnection::disconnectFromServer()
 
 int QHtspConnection::sendMessage(QHtspMessage &message)
 {
+    if(!this)
+        return -1;
+
     quint64 seq = m_seq++;
     message.addInt64("seq", seq);
     QByteArray payload = message.getMessage();
@@ -70,7 +73,10 @@ int QHtspConnection::sendMessage(QHtspMessage &message)
 
 int QHtspConnection::sendMessage(QHtspMessage &message, QObject *receiver, QString member)
 {
-    quint64 seq = sendMessage(message);
+    qint64 seq = sendMessage(message);
+
+    if(seq < 0)
+        return seq;
 
     QHtspConnectionCallback callback;
     callback.receiver = receiver;
