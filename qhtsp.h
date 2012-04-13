@@ -40,7 +40,7 @@ public:
     virtual void connectToServer(QString clientName, QString clientVersion, uint preferredHtspVersion, QString hostName, quint16 port = 9982);
     virtual void disconnectFromServer(bool clear = true);
     void deleteDvrEntry(qint64 id);
-    void enableAsync();
+    virtual void enableAsync();
     void getEvent(qint64 eventId);
     void getEvents(qint64 nextEventId, int numFollowing, QHtspEventList *eventList);
     void queryEpg(QHtspEpgQuery *query);
