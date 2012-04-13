@@ -35,7 +35,7 @@ public:
     QHtspTagList *tags();
 
     void addDvrEntry(qint64 eventId);
-    void authenticate(QString username, QString password);
+    virtual void authenticate(QString username, QString password);
     void cancelDvrEntry(qint64 id);
     virtual void connectToServer(QString clientName, QString clientVersion, uint preferredHtspVersion, QString hostName, quint16 port = 9982);
     virtual void disconnectFromServer(bool clear = true);
