@@ -101,21 +101,21 @@ void QHtspTagModel::_addRow(QHtspTag *tag)
 void QHtspTagModel::_updateIcon()
 {
     int row = m_tags->indexOf((QHtspTag*)QObject::sender());
-    QModelIndex index = createIndex(row, 3);
+    QModelIndex index = createIndex(row, 2);
     emit dataChanged(index, index);
 }
 
 void QHtspTagModel::_updateId()
 {
     int row = m_tags->indexOf((QHtspTag*)QObject::sender());
-    QModelIndex index = createIndex(row, 1);
+    QModelIndex index = createIndex(row, 0);
     emit dataChanged(index, index);
 }
 
 void QHtspTagModel::_updateName()
 {
     int row = m_tags->indexOf((QHtspTag*)QObject::sender());
-    QModelIndex index = createIndex(row, 2);
+    QModelIndex index = createIndex(row, 1);
     emit dataChanged(index, index);
 }
 

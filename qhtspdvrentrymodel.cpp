@@ -146,42 +146,42 @@ void QHtspDvrEntryModel::_addRow(QHtspDvrEntry *dvrEntry)
 void QHtspDvrEntryModel::_updateId()
 {
     int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
-    QModelIndex index = createIndex(row, 1);
+    QModelIndex index = createIndex(row, 0);
     emit dataChanged(index, index);
 }
 
 void QHtspDvrEntryModel::_updateChannel()
 {
     int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
-    QModelIndex index = createIndex(row, 2);
+    QModelIndex index = createIndex(row, 1);
     emit dataChanged(index, index);
 }
 
 void QHtspDvrEntryModel::_updateState()
 {
     int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
-    QModelIndex index = createIndex(row, 3);
+    QModelIndex index = createIndex(row, 2);
     emit dataChanged(index, index);
 }
 
 void QHtspDvrEntryModel::_updateStart()
 {
     int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
-    QModelIndex index = createIndex(row, 4);
+    QModelIndex index = createIndex(row, 3);
     emit dataChanged(index, index);
 }
 
 void QHtspDvrEntryModel::_updateStop()
 {
     int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
-    QModelIndex index = createIndex(row, 5);
+    QModelIndex index = createIndex(row, 4);
     emit dataChanged(index, index);
 }
 
 void QHtspDvrEntryModel::_updateTitle()
 {
     int row = m_dvrEntries->indexOf((QHtspDvrEntry*)QObject::sender());
-    QModelIndex index = createIndex(row, 6);
+    QModelIndex index = createIndex(row, 5);
     emit dataChanged(index, index);
 }
 

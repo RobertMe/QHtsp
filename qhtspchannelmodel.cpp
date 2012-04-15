@@ -134,28 +134,28 @@ void QHtspChannelModel::_addRow(QHtspChannel *channel)
 void QHtspChannelModel::_updateId()
 {
     int row = m_channels->indexOf((QHtspChannel*)QObject::sender());
-    QModelIndex index = createIndex(row, 1);
+    QModelIndex index = createIndex(row, 0);
     emit dataChanged(index, index);
 }
 
 void QHtspChannelModel::_updateName()
 {
     int row = m_channels->indexOf((QHtspChannel*)QObject::sender());
-    QModelIndex index = createIndex(row, 2);
+    QModelIndex index = createIndex(row, 1);
     emit dataChanged(index, index);
 }
 
 void QHtspChannelModel::_updateNumber()
 {
     int row = m_channels->indexOf((QHtspChannel*)QObject::sender());
-    QModelIndex index = createIndex(row, 3);
+    QModelIndex index = createIndex(row, 2);
     emit dataChanged(index, index);
 }
 
 void QHtspChannelModel::_updateIconUrl()
 {
     int row = m_channels->indexOf((QHtspChannel*)QObject::sender());
-    QModelIndex index = createIndex(row, 4);
+    QModelIndex index = createIndex(row, 3);
     emit dataChanged(index, index);
 }
 
@@ -163,7 +163,7 @@ void QHtspChannelModel::_updateEvent()
 {
     QHtspChannel *channel = (QHtspChannel*)QObject::sender();
     int row = m_channels->indexOf(channel);
-    QModelIndex index = createIndex(row, 5);
+    QModelIndex index = createIndex(row, 4);
     emit dataChanged(index, index);
 }
 
@@ -171,7 +171,7 @@ void QHtspChannelModel::_updateEventId()
 {
     QHtspChannel *channel = (QHtspChannel*)QObject::sender();
     int row = m_channels->indexOf(channel);
-    QModelIndex index = createIndex(row, 5);
+    QModelIndex index = createIndex(row, 4);
     emit dataChanged(index, index);
 
     connect(channel->event(), SIGNAL(titleChanged()), this, SLOT(_updateEvent()));

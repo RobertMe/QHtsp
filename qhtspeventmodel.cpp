@@ -197,42 +197,42 @@ void QHtspEventModel::_fetchMore()
 void QHtspEventModel::_updateId()
 {
     int row = m_events->indexOf((QHtspEvent*)QObject::sender());
-    QModelIndex index = createIndex(row, 1);
+    QModelIndex index = createIndex(row, 0);
     emit dataChanged(index, index);
 }
 
 void QHtspEventModel::_updateChannel()
 {
     int row = m_events->indexOf((QHtspEvent*)QObject::sender());
-    QModelIndex index = createIndex(row, 6);
+    QModelIndex index = createIndex(row, 5);
     emit dataChanged(index, index);
 }
 
 void QHtspEventModel::_updateDescription()
 {
     int row = m_events->indexOf((QHtspEvent*)QObject::sender());
-    QModelIndex index = createIndex(row, 2);
+    QModelIndex index = createIndex(row, 1);
     emit dataChanged(index, index);
 }
 
 void QHtspEventModel::_updateStart()
 {
     int row = m_events->indexOf((QHtspEvent*)QObject::sender());
-    QModelIndex index = createIndex(row, 3);
+    QModelIndex index = createIndex(row, 2);
     emit dataChanged(index, index);
 }
 
 void QHtspEventModel::_updateStop()
 {
     int row = m_events->indexOf((QHtspEvent*)QObject::sender());
-    QModelIndex index = createIndex(row, 4);
+    QModelIndex index = createIndex(row, 3);
     emit dataChanged(index, index);
 }
 
 void QHtspEventModel::_updateTitle()
 {
     int row = m_events->indexOf((QHtspEvent*)QObject::sender());
-    QModelIndex index = createIndex(row, 5);
+    QModelIndex index = createIndex(row, 4);
     emit dataChanged(index, index);
 }
 
