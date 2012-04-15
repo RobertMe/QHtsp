@@ -198,11 +198,7 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
         m_isSyncCompleted = true;
         emit syncCompleted();
     }
-    else if(method == "channelAdd")
-    {
-        m_channels->add(this, message);
-    }
-    else if(method == "channelUpdate")
+    else if(method == "channelAdd" || method == "channelUpdate")
     {
         QHtspChannel *channel = m_channels->find(message.getInt64("channelId"));
         if(channel)
@@ -214,11 +210,7 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
     {
         m_channels->remove(message.getInt64("channelId"));
     }
-    else if(method == "tagAdd")
-    {
-        m_tags->add(this, message);
-    }
-    else if(method == "tagUpdate")
+    else if(method == "tagAdd" || method == "tagUpdate")
     {
         QHtspTag *tag = m_tags->find(message.getInt64("tagId"));
         if(tag)
@@ -230,11 +222,7 @@ void QHtsp::_invoke(QString method, QHtspMessage &message)
     {
         m_tags->remove(message.getInt64("tagId"));
     }
-    else if(method == "dvrEntryAdd")
-    {
-        m_dvrEntries->add(this, message);
-    }
-    else if(method == "dvrEntryUpdate")
+    else if(method == "dvrEntryAdd" || method == "dvrEntryUpdate")
     {
         QHtspDvrEntry *dvrEntry = m_dvrEntries->find(message.getInt64("id"));
         if(dvrEntry)
