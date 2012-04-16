@@ -90,7 +90,7 @@ QHtspTag *QHtspTagModel::getTagByIndex(int i)
 
 void QHtspTagModel::_addRow(QHtspTag *tag)
 {
-    int rows = rowCount();
+    int rows = rowCount() - 1;
     beginInsertRows(QModelIndex(), rows, rows);
     endInsertRows();
     connect(tag, SIGNAL(iconUrlChanged()), this, SLOT(_updateIcon()));

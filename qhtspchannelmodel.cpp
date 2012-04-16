@@ -118,7 +118,7 @@ QHtspChannel *QHtspChannelModel::getChannelByIndex(int i)
 
 void QHtspChannelModel::_addRow(QHtspChannel *channel)
 {
-    int rows = rowCount();
+    int rows = rowCount() - 1;
     beginInsertRows(QModelIndex(), rows, rows);
     endInsertRows();
 

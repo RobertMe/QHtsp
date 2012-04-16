@@ -129,7 +129,7 @@ QHtspDvrEntry *QHtspDvrEntryModel::getDvrEntryByIndex(int index)
 
 void QHtspDvrEntryModel::_addRow(QHtspDvrEntry *dvrEntry)
 {
-    int rows = rowCount();
+    int rows = rowCount() - 1;
     beginInsertRows(QModelIndex(), rows, rows);
     endInsertRows();
 
