@@ -74,11 +74,11 @@ class QHtspDvrEntry : public QObject
 
 public:
     enum State {
-        Completed,
-        Invalid,
-        Missed,
-        Recording,
-        Scheduled
+        Completed = 2,
+        Invalid = 3,
+        Missed = 4,
+        Recording = 1,
+        Scheduled = 0
     };
 
     explicit QHtspDvrEntry(QHtsp *htsp, QObject *parent = 0);
