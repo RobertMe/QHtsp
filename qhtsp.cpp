@@ -106,6 +106,10 @@ void QHtsp::disconnectFromServer(bool clear)
         m_connection = 0;
     }
 
+    m_epgQueries.clear();
+    m_requestedEvents.clear();
+    m_requestedEventLists.clear();
+
     if(clear)
     {
         _clearLists();
