@@ -7,6 +7,7 @@ QHtspChannelData::QHtspChannelData(QHtspChannel *channel, QHtsp *htsp)
 {
     m_channel = channel;
     m_event = 0;
+    eventId = -1;
 }
 
 QHtspChannelData::QHtspChannelData(const QHtspChannelData &other)
