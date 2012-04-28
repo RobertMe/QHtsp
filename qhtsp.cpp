@@ -90,6 +90,7 @@ void QHtsp::connectToServer(QString clientName, QString clientVersion, uint pref
 
     m_connection = new QHtspConnection(this);
     connect(m_connection, SIGNAL(connected()), this, SLOT(_connectionConnected()));
+    connect(m_connection, SIGNAL(connectionError(QAbstractSocket::SocketError)), this, SLOT(_connectionError(QAbstractSocket::SocketError)));
     connect(m_connection, SIGNAL(invoke(QString,QHtspMessage&)), this, SLOT(_invoke(QString,QHtspMessage&)));
     connect(m_connection, SIGNAL(accessDenied()), this, SIGNAL(accessDenied()));
     m_connection->setHostName(hostName);
@@ -185,6 +186,12 @@ void QHtsp::_connectionConnected()
     hello.addInt64("htspversion", m_preferredHtspVersion);
 
     m_connection->sendMessage(hello, this, "_handleHello");
+}
+
+void QHtsp::_connectionError(QAbstractSocket::SocketError error)
+{
+    if(!m_connection->isConnected() && error != QAbstractSocket::RemoteHostClosedError)
+        emit connectError();
 }
 
 void QHtsp::_createLists()

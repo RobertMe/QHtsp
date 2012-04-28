@@ -48,6 +48,7 @@ public:
 signals:
     void accessDenied();
     void connected();
+    void connectError();
     void dvrEntryAdded(QHtspDvrEntry *dvrEntry);
     void syncCompleted();
 
@@ -75,6 +76,7 @@ private:
 private slots:
     void _clearLists();
     void _connectionConnected();
+    void _connectionError(QAbstractSocket::SocketError error);
     void _createLists();
     void _invoke(QString method, QHtspMessage &message);
 
