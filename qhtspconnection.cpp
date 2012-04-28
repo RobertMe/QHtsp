@@ -12,6 +12,7 @@ QHtspConnection::QHtspConnection(QObject *parent)
     m_socket = new QTcpSocket(this);
     connect(m_socket, SIGNAL(connected()), this, SLOT(_socketConnected()));
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(_readMessage()));
+    connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(_error(QAbstractSocket::SocketError)));
 }
 
 QHtspConnection::~QHtspConnection()
@@ -89,6 +90,11 @@ int QHtspConnection::sendMessage(QHtspMessage &message, QObject *receiver, QStri
     m_callbacks[seq] = callback;
 
     return seq;
+}
+
+void QHtspConnection::_error(QAbstractSocket::SocketError error)
+{
+    emit connectionError(error);
 }
 
 void QHtspConnection::_handleMessage(QByteArray payload)

@@ -41,6 +41,7 @@ public:
 signals:
     void accessDenied();
     void connected();
+    void connectionError(QAbstractSocket::SocketError error);
     void invoke(QString method, QHtspMessage &message);
 
 private:
@@ -55,6 +56,7 @@ private:
     QTcpSocket *m_socket;
 
 private slots:
+    void _error(QAbstractSocket::SocketError error);
     void _handleMessage(QByteArray payload);
     void _readMessage();
     void _socketConnected();
