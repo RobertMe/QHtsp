@@ -25,6 +25,7 @@ public:
     ~QHtspConnection();
 
     QString hostName();
+    bool isConnected();
     quint16 port();
 
     void setHostName(QString hostName);

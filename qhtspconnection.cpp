@@ -27,6 +27,11 @@ QString QHtspConnection::hostName()
     return m_hostName;
 }
 
+bool QHtspConnection::isConnected()
+{
+    return m_socket->state() == QAbstractSocket::ConnectedState;
+}
+
 quint16 QHtspConnection::port()
 {
     return m_port;
