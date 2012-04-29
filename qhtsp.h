@@ -49,6 +49,7 @@ signals:
     void accessDenied();
     void connected();
     void connectError();
+    void connectionLost();
     void dvrEntryAdded(QHtspDvrEntry *dvrEntry);
     void syncCompleted();
 

@@ -190,7 +190,9 @@ void QHtsp::_connectionConnected()
 
 void QHtsp::_connectionError(QAbstractSocket::SocketError error)
 {
-    if(!m_connection->isConnected() && error != QAbstractSocket::RemoteHostClosedError)
+    if(error == QAbstractSocket::RemoteHostClosedError)
+        emit connectionLost();
+    else if(!m_connection->isConnected())
         emit connectError();
 }
 
