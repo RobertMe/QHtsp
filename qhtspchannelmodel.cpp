@@ -12,6 +12,11 @@ QHtspChannelModel::QHtspChannelModel(QHtspChannelList *channels) :
     roles[IconUrlRole] = "icon";
     roles[EventRole] = "event";
     setRoleNames(roles);
+
+    for(int i = 0; i < m_channels->count(); i++)
+    {
+        _connectSignals(m_channels->at(i));
+    }
 }
 
 int QHtspChannelModel::columnCount(const QModelIndex &/*parent*/) const
@@ -122,6 +127,11 @@ void QHtspChannelModel::_addRow(QHtspChannel *channel)
     beginInsertRows(QModelIndex(), rows, rows);
     endInsertRows();
 
+    _connectSignals(channel);
+}
+
+void QHtspChannelModel::_connectSignals(QHtspChannel *channel)
+{
     connect(channel, SIGNAL(idChanged()), this, SLOT(_updateId()));
     connect(channel, SIGNAL(nameChanged()), this, SLOT(_updateName()));
     connect(channel, SIGNAL(numberChanged()), this, SLOT(_updateNumber()));

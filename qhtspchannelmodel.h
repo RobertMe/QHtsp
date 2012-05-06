@@ -35,6 +35,8 @@ public:
 private:
     QHtspChannelList *m_channels;
 
+    void _connectSignals(QHtspChannel *channel);
+
 private slots:
     void _addRow(QHtspChannel *channel);
     void _updateId();
