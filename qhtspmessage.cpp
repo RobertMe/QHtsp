@@ -1,5 +1,7 @@
 #include "qhtspmessage.h"
 
+#include <QDebug>
+
 QHtspMessage::QHtspMessage()
 {
 }
@@ -176,7 +178,7 @@ QByteArray QHtspMessage::getMessage()
 
     return message.prepend(_getLength(message.length()));
 }
-#include <QDebug>
+
 bool QHtspMessage::parseMessageData(const QByteArray data)
 {
     int currentPos = -1;
