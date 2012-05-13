@@ -1,9 +1,10 @@
 #include "qhtspchannel.h"
+#include "qhtspservice.h"
 
 #include "qhtsp.h"
 
 QHtspChannelData::QHtspChannelData(QHtspChannel *channel, QHtsp *htsp)
-    : events(new QHtspEventList(channel, this)), htsp(htsp), m_eventModel(0)
+    : events(new QHtspEventList(channel, this)), htsp(htsp), service(0), m_eventModel(0)
 {
     m_channel = channel;
     m_event = 0;
@@ -22,6 +23,7 @@ QHtspChannelData::QHtspChannelData(const QHtspChannelData &other)
     id = other.id;
     name = other.name;
     number = other.number;
+    service = other.service;
 }
 
 QHtspEvent *QHtspChannelData::event()
@@ -117,6 +119,23 @@ void QHtspChannelData::setNumber(qint64 number)
     emit numberChanged();
 }
 
+void QHtspChannelData::setService(QHtspService *service)
+{
+    if(this->service == service)
+        return;
+
+    //first checks if this->service is't 0, because of above if it also
+    //means service isn't 0
+    if(this->service && this->service->name() == service->name())
+        return;
+
+    if(this->service)
+        delete this->service;
+
+    this->service = service;
+    emit serviceChanged();
+}
+
 void QHtspChannelData::parseMessage(QHtspMessage &message)
 {
     int eventId;
@@ -124,6 +143,7 @@ void QHtspChannelData::parseMessage(QHtspMessage &message)
     qint64 id;
     QString name;
     qint64 number;
+    QList<QHtspMessage*> *serviceMessages;
     bool ok;
 
     id = message.getInt64("channelId", &ok);
@@ -145,4 +165,17 @@ void QHtspChannelData::parseMessage(QHtspMessage &message)
     eventId = message.getInt64("eventId", &ok);
     if(ok)
         setEventId(eventId);
+
+    serviceMessages = message.getMessageList("services", &ok);
+    if(serviceMessages->count() > 0)
+        setService(new QHtspService(*serviceMessages->at(0), m_channel, this));
+    else
+        setService(0);
+    while(serviceMessages->count())
+    {
+        QHtspMessage *message = serviceMessages->at(0);
+        serviceMessages->removeFirst();
+        delete message;
+    }
+    delete serviceMessages;
 }

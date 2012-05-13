@@ -10,6 +10,7 @@
 #include "qhtspeventmodel.h"
 
 class QHtsp;
+class QHtspService;
 class QHtspChannelData : public QObject, public QSharedData
 {
     Q_OBJECT
@@ -26,6 +27,7 @@ public:
     qint64 id;
     QString name;
     qint64 number;
+    QHtspService *service;
 
     QHtspEvent *event();
     QHtspEventModel *eventsModel();
@@ -35,6 +37,7 @@ public:
     void setId(qint64 id);
     void setName(QString name);
     void setNumber(qint64 number);
+    void setService(QHtspService *service);
 
     void parseMessage(QHtspMessage &message);
 
@@ -44,6 +47,7 @@ signals:
     void idChanged();
     void nameChanged();
     void numberChanged();
+    void serviceChanged();
 
 private:
     QHtspChannel *m_channel;
@@ -61,6 +65,7 @@ class QHtspChannel : public QObject
     Q_PROPERTY(qint64 id READ id WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(qint64 number READ number WRITE setNumber NOTIFY numberChanged)
+    Q_PROPERTY(QHtspService *service READ service WRITE setService NOTIFY serviceChanged)
 
 public:
     explicit QHtspChannel(QHtsp *htsp, QObject *parent = 0);
@@ -75,12 +80,14 @@ public:
     qint64 id();
     QString name();
     qint64 number();
+    QHtspService *service();
 
     void setEventId(qint64 eventId);
     void setIconUrl(QString url);
     void setId(qint64 id);
     void setName(QString name);
     void setNumber(qint64 number);
+    void setService(QHtspService *service);
 
     void fetchNextEvents(int count);
     void update(QHtspMessage &message);
@@ -91,6 +98,7 @@ signals:
     void idChanged();
     void nameChanged();
     void numberChanged();
+    void serviceChanged();
 
 private:
     QExplicitlySharedDataPointer<QHtspChannelData> d;

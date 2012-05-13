@@ -65,6 +65,11 @@ qint64 QHtspChannel::number()
     return d->number;
 }
 
+QHtspService *QHtspChannel::service()
+{
+    return d->service;
+}
+
 void QHtspChannel::setEventId(qint64 eventId)
 {
     d->setEventId(eventId);
@@ -90,6 +95,11 @@ void QHtspChannel::setNumber(qint64 number)
     d->setNumber(number);
 }
 
+void QHtspChannel::setService(QHtspService *service)
+{
+    d->setService(service);
+}
+
 void QHtspChannel::fetchNextEvents(int count)
 {
     d->htsp->getEvents(events()->at(events()->count()-1)->nextEventId(), count - 1, events());
@@ -107,4 +117,5 @@ void QHtspChannel::_connectSignals()
     connect(d.data(), SIGNAL(idChanged()), this, SIGNAL(idChanged()));
     connect(d.data(), SIGNAL(nameChanged()), this, SIGNAL(nameChanged()));
     connect(d.data(), SIGNAL(numberChanged()), this, SIGNAL(numberChanged()));
+    connect(d.data(), SIGNAL(serviceChanged()), this, SIGNAL(serviceChanged()));
 }
