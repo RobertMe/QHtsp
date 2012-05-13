@@ -167,15 +167,18 @@ void QHtspChannelData::parseMessage(QHtspMessage &message)
         setEventId(eventId);
 
     serviceMessages = message.getMessageList("services", &ok);
-    if(serviceMessages->count() > 0)
-        setService(new QHtspService(*serviceMessages->at(0), m_channel, this));
-    else
-        setService(0);
-    while(serviceMessages->count())
+    if(ok)
     {
-        QHtspMessage *message = serviceMessages->at(0);
-        serviceMessages->removeFirst();
-        delete message;
+        if(serviceMessages->count() > 0)
+            setService(new QHtspService(*serviceMessages->at(0), m_channel, this));
+        else
+            setService(0);
+        while(serviceMessages->count())
+        {
+            QHtspMessage *message = serviceMessages->at(0);
+            serviceMessages->removeFirst();
+            delete message;
+        }
+        delete serviceMessages;
     }
-    delete serviceMessages;
 }
