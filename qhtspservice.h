@@ -42,6 +42,7 @@ signals:
 class QHtspService : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(Type)
     Q_PROPERTY(qint64 caid READ caid WRITE setCaid NOTIFY caidChanged)
     Q_PROPERTY(QString caname READ caname WRITE setCaname NOTIFY canameChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
