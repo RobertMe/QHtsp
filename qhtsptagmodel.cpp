@@ -1,7 +1,7 @@
 #include "qhtsptagmodel.h"
 
-QHtspTagModel::QHtspTagModel(QHtspTagList *tags) :
-    QAbstractTableModel(tags), m_tags(tags)
+QHtspTagModel::QHtspTagModel(QHtspTagList *tags, QObject *parent) :
+    QAbstractTableModel(parent ? parent : tags), m_tags(tags)
 {
     connect(m_tags, SIGNAL(added(QHtspTag*)), this, SLOT(_addRow(QHtspTag*)));
     connect(m_tags, SIGNAL(removing(QHtspTag*)), this, SLOT(_removeRow(QHtspTag*)));

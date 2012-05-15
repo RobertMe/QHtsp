@@ -1,7 +1,7 @@
 #include "qhtspdvrentrymodel.h"
 
-QHtspDvrEntryModel::QHtspDvrEntryModel(QHtspDvrEntryList *dvrEnties) :
-    QAbstractTableModel(dvrEnties), m_dvrEntries(dvrEnties)
+QHtspDvrEntryModel::QHtspDvrEntryModel(QHtspDvrEntryList *dvrEnties, QObject *parent) :
+    QAbstractTableModel(parent ? parent : dvrEnties), m_dvrEntries(dvrEnties)
 {
     connect(m_dvrEntries, SIGNAL(added(QHtspDvrEntry*)), this, SLOT(_addRow(QHtspDvrEntry*)));
     connect(m_dvrEntries, SIGNAL(removing(QHtspDvrEntry*)), this, SLOT(_removeRow(QHtspDvrEntry*)));

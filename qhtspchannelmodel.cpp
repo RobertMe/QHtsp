@@ -1,7 +1,7 @@
 #include "qhtspchannelmodel.h"
 
-QHtspChannelModel::QHtspChannelModel(QHtspChannelList *channels) :
-    QAbstractTableModel(channels), m_channels(channels)
+QHtspChannelModel::QHtspChannelModel(QHtspChannelList *channels, QObject *parent) :
+    QAbstractTableModel(parent ? parent : channels), m_channels(channels)
 {
     connect(m_channels, SIGNAL(added(QHtspChannel*)), this, SLOT(_addRow(QHtspChannel*)));
     connect(m_channels, SIGNAL(removing(QHtspChannel*)), this, SLOT(_removeRow(QHtspChannel*)));

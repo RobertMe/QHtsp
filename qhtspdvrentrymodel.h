@@ -20,7 +20,7 @@ public:
         TitleRole
     };
 
-    explicit QHtspDvrEntryModel(QHtspDvrEntryList *dvrEnties);
+    explicit QHtspDvrEntryModel(QHtspDvrEntryList *dvrEnties, QObject *parent = 0);
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;

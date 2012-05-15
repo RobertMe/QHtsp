@@ -23,7 +23,7 @@ public:
         StartDateRole
     };
 
-    explicit QHtspEventModel(QHtspEventList *events);
+    explicit QHtspEventModel(QHtspEventList *events, QObject *parent = 0);
     
     bool canFetchMore(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;

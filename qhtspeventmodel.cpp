@@ -2,8 +2,8 @@
 
 #include "qhtspchannel.h"
 
-QHtspEventModel::QHtspEventModel(QHtspEventList *events) :
-    QAbstractTableModel(events), m_events(events)
+QHtspEventModel::QHtspEventModel(QHtspEventList *events, QObject *parent) :
+    QAbstractTableModel(parent ? parent : events), m_events(events)
 {
     connect(m_events, SIGNAL(added(QHtspEvent*)), this, SLOT(_addRow(QHtspEvent*)));
     connect(m_events, SIGNAL(removing(QHtspEvent*)), this, SLOT(_removeRow(QHtspEvent*)));
