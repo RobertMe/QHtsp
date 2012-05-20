@@ -60,6 +60,9 @@ void QHtsp::addDvrEntry(qint64 eventId)
 
 void QHtsp::authenticate(QString username, QString password)
 {
+    m_username = username;
+    m_password = password;
+
     QHtspMessage authenticate;
     QCryptographicHash digest(QCryptographicHash::Sha1);
     authenticate.addString("method", "authenticate");
@@ -87,6 +90,8 @@ void QHtsp::connectToServer(QString clientName, QString clientVersion, uint pref
     m_clientName = clientName;
     m_clientVersion = clientVersion;
     m_preferredHtspVersion = preferredHtspVersion;
+    m_hostName = hostName;
+    m_port = port;
 
     m_connection = new QHtspConnection(this);
     connect(m_connection, SIGNAL(connected()), this, SLOT(_connectionConnected()));

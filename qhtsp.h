@@ -56,6 +56,14 @@ signals:
 protected:
     QHtspConnection *m_connection;
 
+    QString m_clientName;
+    QString m_clientVersion;
+    QString m_hostName;
+    QString m_password;
+    quint16 m_port;
+    QString m_username;
+    uint m_preferredHtspVersion;
+
 private:
     QHtspChannelList *m_channels;
     QHtspDvrEntryList *m_dvrEntries;
@@ -63,12 +71,9 @@ private:
     QHtspTagList *m_tags;
 
     QByteArray m_challenge;
-    QString m_clientName;
-    QString m_clientVersion;
     QHash<qint64, QHtspEpgQuery*> m_epgQueries;
     int m_htspVersion;
     bool m_isSyncCompleted;
-    uint m_preferredHtspVersion;
     QHash<qint64, qint64> m_requestedEvents;
     QHash<qint64, QHtspEventList*> m_requestedEventLists;
     QString m_serverName;
