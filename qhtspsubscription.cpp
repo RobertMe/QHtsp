@@ -93,9 +93,24 @@ void QHtspSubscription::_invoke(QString method, QHtspMessage &message)
 {
     if(method == "subscriptionStart")
     {
-        QHtspMessage *sourceinfo = message.getMessage("sourceinfo");
-        d->parseSourceInfo(*sourceinfo);
-        delete sourceinfo;
+        bool ok;
+        QHtspMessage *sourceinfo = message.getMessage("sourceinfo", &ok);
+        if(ok)
+        {
+            d->parseSourceInfo(*sourceinfo);
+            delete sourceinfo;
+        }
+
+        QList<QHtspMessage*> *streams = message.getMessageList("streams");
+        for(int i = 0; i < streams->length(); i++)
+        {
+            QHtspMessage *message = streams->at(i);
+            QHtspStream *stream = new QHtspStream(*message, this);
+            m_streams.insert(message->getInt64("index"), stream);
+            delete message;
+        }
+        delete streams;
+
         emit started();
     }
 }

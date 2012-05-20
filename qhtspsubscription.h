@@ -3,6 +3,7 @@
 
 #include <QByteArray>
 #include <QExplicitlySharedDataPointer>
+#include <QHash>
 #include <QObject>
 #include <QSharedData>
 #include <QString>
@@ -10,6 +11,7 @@
 #include "qhtspchannel.h"
 #include "qhtspconnection.h"
 #include "qhtspmessage.h"
+#include "qhtspstream.h"
 
 class QHtspSubscriptionData : public QObject, public QSharedData
 {
@@ -65,6 +67,7 @@ private:
     uint m_preferredHtspVersion;
 
     QHtspChannel *m_channel;
+    QHash<quint8, QHtspStream*> m_streams;
 
     static quint64 m_id;
 
