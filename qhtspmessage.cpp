@@ -118,6 +118,26 @@ QList<qint64> *QHtspMessage::getInt64List(QString key, bool *ok)
     return ints;
 }
 
+QHtspMessage *QHtspMessage::getMessage(QString key, bool *ok)
+{
+    QHtspMessageData *data = _searchKey(key);
+
+    if(ok)
+        *ok = false;
+
+    if(!data || data->type != 1)
+        return 0;
+
+    QByteArray map = _getLength(data->value.length());
+    map.append(data->value);
+    QHtspMessage *message = new QHtspMessage(map);
+
+    if(ok)
+        *ok = true;
+
+    return message;
+}
+
 QList<QHtspMessage*> *QHtspMessage::getMessageList(QString key, bool *ok)
 {
     QHtspMessageData *data = _searchKey(key);

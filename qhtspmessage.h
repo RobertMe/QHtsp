@@ -26,6 +26,7 @@ public:
     QByteArray getBin(QString key, bool *ok = 0);
     qint64 getInt64(QString key, bool *ok = 0);
     QList<qint64> *getInt64List(QString key, bool *ok = 0);
+    QHtspMessage *getMessage(QString key, bool *ok = 0);
     QList<QHtspMessage*> *getMessageList(QString key, bool *ok = 0);
     QString getString(QString key, bool *ok = 0);
 
