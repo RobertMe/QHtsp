@@ -164,12 +164,13 @@ void QHtsp::queryEpg(QHtspEpgQuery *query)
     m_epgQueries[seq] = query;
 }
 
-void QHtsp::subscribe(QHtspChannel *channel)
+QHtspSubscription *QHtsp::subscribe(QHtspChannel *channel)
 {
     QHtspSubscription *subscription = new QHtspSubscription(this);
     subscription->setAuthentication(m_username, m_password);
     subscription->setConnectionDetails(m_clientName, m_clientVersion, m_preferredHtspVersion, m_hostName, m_port);
     subscription->start(channel);
+    return subscription;
 }
 
 void QHtsp::deleteDvrEntry(qint64 id)

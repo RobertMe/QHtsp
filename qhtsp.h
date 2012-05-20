@@ -45,7 +45,7 @@ public:
     void getEvent(qint64 eventId);
     void getEvents(qint64 nextEventId, int numFollowing, QHtspEventList *eventList);
     void queryEpg(QHtspEpgQuery *query);
-    void subscribe(QHtspChannel *channel);
+    QHtspSubscription *subscribe(QHtspChannel *channel);
 
 signals:
     void accessDenied();

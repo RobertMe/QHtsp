@@ -11,6 +11,7 @@
 
 class QHtsp;
 class QHtspService;
+class QHtspSubscription;
 class QHtspChannelData : public QObject, public QSharedData
 {
     Q_OBJECT
@@ -90,7 +91,7 @@ public:
     void setService(QHtspService *service);
 
     void fetchNextEvents(int count);
-    void subscribe();
+    QHtspSubscription *subscribe();
     void update(QHtspMessage &message);
 
 signals:
