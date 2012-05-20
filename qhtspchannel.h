@@ -90,6 +90,7 @@ public:
     void setService(QHtspService *service);
 
     void fetchNextEvents(int count);
+    void subscribe();
     void update(QHtspMessage &message);
 
 signals:

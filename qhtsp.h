@@ -13,6 +13,7 @@
 #include "qhtspepgquery.h"
 #include "qhtspeventlist.h"
 #include "qhtspmessage.h"
+#include "qhtspsubscription.h"
 #include "qhtsptaglist.h"
 
 class QHTSPSHARED_EXPORT QHtsp : public QObject
@@ -44,6 +45,7 @@ public:
     void getEvent(qint64 eventId);
     void getEvents(qint64 nextEventId, int numFollowing, QHtspEventList *eventList);
     void queryEpg(QHtspEpgQuery *query);
+    void subscribe(QHtspChannel *channel);
 
 signals:
     void accessDenied();

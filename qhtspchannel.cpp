@@ -105,6 +105,11 @@ void QHtspChannel::fetchNextEvents(int count)
     d->htsp->getEvents(events()->at(events()->count()-1)->nextEventId(), count - 1, events());
 }
 
+void QHtspChannel::subscribe()
+{
+    d->htsp->subscribe(this);
+}
+
 void QHtspChannel::update(QHtspMessage &message)
 {
     d->parseMessage(message);

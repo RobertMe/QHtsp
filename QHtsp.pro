@@ -35,7 +35,8 @@ SOURCES += qhtspconnection.cpp \
     qhtsptagdata.cpp \
     qhtspdvrentrydata.cpp \
     qhtspservice.cpp \
-    qhtspservicedata.cpp
+    qhtspservicedata.cpp \
+    qhtspsubscription.cpp
 
 HEADERS += qhtspconnection.h \
     qhtsp_global.h \
@@ -54,7 +55,8 @@ HEADERS += qhtspconnection.h \
     qhtspdvrentry.h \
     qhtspdvrentrylist.h \
     qhtspdvrentrymodel.h \
-    qhtspservice.h
+    qhtspservice.h \
+    qhtspsubscription.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
