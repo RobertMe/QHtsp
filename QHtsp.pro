@@ -36,7 +36,8 @@ SOURCES += qhtspconnection.cpp \
     qhtspdvrentrydata.cpp \
     qhtspservice.cpp \
     qhtspservicedata.cpp \
-    qhtspsubscription.cpp
+    qhtspsubscription.cpp \
+    qhtspsubscriptiondata.cpp
 
 HEADERS += qhtspconnection.h \
     qhtsp_global.h \

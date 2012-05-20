@@ -5,6 +5,32 @@
 QHtspSubscription::QHtspSubscription(QObject *parent) :
     QObject(parent)
 {
+    d = new QHtspSubscriptionData(this);
+}
+
+QString QHtspSubscription::adapter()
+{
+    return d->adapter;
+}
+
+QString QHtspSubscription::mux()
+{
+    return d->mux;
+}
+
+QString QHtspSubscription::network()
+{
+    return d->network;
+}
+
+QString QHtspSubscription::provider()
+{
+    return d->provider;
+}
+
+QString QHtspSubscription::service()
+{
+    return d->service;
 }
 
 void QHtspSubscription::start(QHtspChannel *channel)
@@ -65,8 +91,13 @@ void QHtspSubscription::_connectionConnected()
 
 void QHtspSubscription::_invoke(QString method, QHtspMessage &message)
 {
-    Q_UNUSED(method);
-    Q_UNUSED(message);
+    if(method == "subscriptionStart")
+    {
+        QHtspMessage *sourceinfo = message.getMessage("sourceinfo");
+        d->parseSourceInfo(*sourceinfo);
+        delete sourceinfo;
+        emit started();
+    }
 }
 
 void QHtspSubscription::_handleHello(QHtspMessage &message)
