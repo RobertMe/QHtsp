@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <QExplicitlySharedDataPointer>
 #include <QHash>
+#include <QList>
 #include <QObject>
 #include <QSharedData>
 #include <QString>
@@ -46,6 +47,7 @@ public:
     QString network();
     QString provider();
     QString service();
+    QList<QHtspStream*> streams();
 
     void start(QHtspChannel *channel);
     void setAuthentication(QString username, QString password);

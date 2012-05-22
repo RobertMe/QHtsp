@@ -33,6 +33,11 @@ QString QHtspSubscription::service()
     return d->service;
 }
 
+QList<QHtspStream*> QHtspSubscription::streams()
+{
+    return m_streams.values();
+}
+
 void QHtspSubscription::start(QHtspChannel *channel)
 {
     m_channel = channel;
