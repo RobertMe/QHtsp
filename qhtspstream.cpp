@@ -11,6 +11,26 @@ QHtspStream::QHtspStream(QHtspMessage &message, QObject *parent) :
     parseMessage(message);
 }
 
+quint16 QHtspStream::height()
+{
+    return m_height;
+}
+
+QString QHtspStream::language()
+{
+    return m_language;
+}
+
+QHtspStream::Type QHtspStream::type()
+{
+    return m_type;
+}
+
+quint16 QHtspStream::width()
+{
+    return m_width;
+}
+
 void QHtspStream::parseMessage(QHtspMessage &message)
 {
     quint16 height;
