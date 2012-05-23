@@ -16,6 +16,11 @@ quint16 QHtspStream::height()
     return m_height;
 }
 
+bool QHtspStream::isOpen()
+{
+    return m_isOpen;
+}
+
 QString QHtspStream::language()
 {
     return m_language;
@@ -29,6 +34,11 @@ QHtspStream::Type QHtspStream::type()
 quint16 QHtspStream::width()
 {
     return m_width;
+}
+
+void QHtspStream::open(bool open)
+{
+    m_isOpen = open;
 }
 
 void QHtspStream::parseInfo(QHtspMessage &message)

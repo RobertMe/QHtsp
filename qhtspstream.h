@@ -31,10 +31,12 @@ public:
     QHtspStream(QHtspMessage &message, QObject *parent = 0);
 
     quint16 height();
+    bool isOpen();
     QString language();
     Type type();
     quint16 width();
 
+    void open(bool open = true);
     void parseInfo(QHtspMessage &message);
 
 private:
@@ -42,6 +44,8 @@ private:
     QString m_language;
     Type m_type;
     quint16 m_width;
+
+    bool m_isOpen;
 };
 
 #endif // QHTSPSTREAM_H
