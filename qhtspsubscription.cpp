@@ -101,7 +101,12 @@ void QHtspSubscription::_connectionConnected()
 
 void QHtspSubscription::_invoke(QString method, QHtspMessage &message)
 {
-    if(method == "subscriptionStart")
+    if(method == "muxpkt")
+    {
+        int streamIndex = message.getInt64("stream");
+        m_streams[streamIndex]->handleMux(message);
+    }
+    else if(method == "subscriptionStart")
     {
         bool ok;
         QHtspMessage *sourceinfo = message.getMessage("sourceinfo", &ok);

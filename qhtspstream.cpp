@@ -41,6 +41,24 @@ quint16 QHtspStream::width()
     return m_width;
 }
 
+void QHtspStream::handleMux(QHtspMessage &message)
+{
+    if(!isOpen())
+        return;
+
+    Frame frame;
+
+    frame.decodeTimestamp = message.getInt64("dts");
+    frame.duration = message.getInt64("duration");
+    frame.payload = message.getBin("payload");
+    frame.presentationTimestamp = message.getInt64("pts");
+    frame.type = message.getString("frametype")[0];
+
+    m_frames.enqueue(frame);
+
+    emit frameReceived(this);
+}
+
 void QHtspStream::open(bool open)
 {
     m_isOpen = open;
@@ -101,4 +119,13 @@ void QHtspStream::parseInfo(QHtspMessage &message)
     width = message.getInt64("width", &ok);
     if(ok)
         m_width = width;
+}
+
+bool QHtspStream::readFrame(Frame *frame)
+{
+    if(m_frames.isEmpty() || !frame)
+        return false;
+
+    *frame = m_frames.dequeue();
+    return true;
 }

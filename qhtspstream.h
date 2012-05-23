@@ -1,7 +1,9 @@
 #ifndef QHTSPSTREAM_H
 #define QHTSPSTREAM_H
 
+#include <QChar>
 #include <QObject>
+#include <QQueue>
 
 #include "qhtspmessage.h"
 
@@ -27,6 +29,14 @@ public:
         TEXTSUB
     };
 
+    struct Frame {
+        quint32 decodeTimestamp;
+        quint32 duration;
+        QByteArray payload;
+        quint32 presentationTimestamp;
+        QChar type;
+    };
+
     explicit QHtspStream(QObject *parent = 0);
     QHtspStream(QHtspMessage &message, QObject *parent = 0);
 
@@ -37,8 +47,13 @@ public:
     Type type();
     quint16 width();
 
+    void handleMux(QHtspMessage &message);
     void open(bool open = true);
     void parseInfo(QHtspMessage &message);
+    bool readFrame(Frame *frame);
+
+signals:
+    void frameReceived(QHtspStream *stream);
 
 private:
     quint16 m_height;
@@ -48,6 +63,7 @@ private:
     quint16 m_width;
 
     bool m_isOpen;
+    QQueue<Frame> m_frames;
 };
 
 #endif // QHTSPSTREAM_H
