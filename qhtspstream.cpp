@@ -16,6 +16,11 @@ quint16 QHtspStream::height()
     return m_height;
 }
 
+quint8 QHtspStream::id()
+{
+    return m_id;
+}
+
 bool QHtspStream::isOpen()
 {
     return m_isOpen;
@@ -44,6 +49,7 @@ void QHtspStream::open(bool open)
 void QHtspStream::parseInfo(QHtspMessage &message)
 {
     quint16 height;
+    quint8 id;
     QString language;
     QString type;
     quint16 width;
@@ -52,6 +58,10 @@ void QHtspStream::parseInfo(QHtspMessage &message)
     height = message.getInt64("height", &ok);
     if(ok)
         m_height = height;
+
+    id = message.getInt64("index", &ok);
+    if(ok)
+        m_id = id;
 
     language = message.getString("language", &ok);
     if(ok)

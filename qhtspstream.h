@@ -31,6 +31,7 @@ public:
     QHtspStream(QHtspMessage &message, QObject *parent = 0);
 
     quint16 height();
+    quint8 id();
     bool isOpen();
     QString language();
     Type type();
@@ -41,6 +42,7 @@ public:
 
 private:
     quint16 m_height;
+    quint8 m_id;
     QString m_language;
     Type m_type;
     quint16 m_width;
