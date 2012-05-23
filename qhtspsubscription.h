@@ -43,6 +43,7 @@ public:
     explicit QHtspSubscription(QObject *parent = 0);
 
     QString adapter();
+    bool isStarted();
     QString mux();
     QString network();
     QString provider();
@@ -69,6 +70,7 @@ private:
     uint m_preferredHtspVersion;
 
     QHtspChannel *m_channel;
+    bool m_isStarted;
     QHash<quint8, QHtspStream*> m_streams;
 
     static quint64 m_id;

@@ -3,7 +3,7 @@
 #include <QCryptographicHash>
 
 QHtspSubscription::QHtspSubscription(QObject *parent) :
-    QObject(parent)
+    QObject(parent), m_isStarted(false)
 {
     d = new QHtspSubscriptionData(this);
 }
@@ -11,6 +11,11 @@ QHtspSubscription::QHtspSubscription(QObject *parent) :
 QString QHtspSubscription::adapter()
 {
     return d->adapter;
+}
+
+bool QHtspSubscription::isStarted()
+{
+    return m_isStarted;
 }
 
 QString QHtspSubscription::mux()
@@ -116,6 +121,7 @@ void QHtspSubscription::_invoke(QString method, QHtspMessage &message)
         }
         delete streams;
 
+        m_isStarted = true;
         emit started();
     }
 }
