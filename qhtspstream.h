@@ -35,7 +35,7 @@ public:
     Type type();
     quint16 width();
 
-    void parseMessage(QHtspMessage &message);
+    void parseInfo(QHtspMessage &message);
 
 private:
     quint16 m_height;
