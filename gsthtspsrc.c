@@ -4,6 +4,21 @@ GST_DEBUG_CATEGORY_STATIC(htspsrc_debug);
 
 GST_BOILERPLATE(GstHtspSrc, gst_htsp_src, GstElement, GST_TYPE_ELEMENT)
 
+#if GST_VERSION_MAJOR == 0 && GST_VERSION_MINOR <= 10 && GST_VERSION_MICRO < 35
+void
+gst_element_class_add_static_pad_template (GstElementClass * klass,
+    GstStaticPadTemplate * templ)
+{
+  GstPadTemplate *pt;
+
+  g_return_if_fail (GST_IS_ELEMENT_CLASS (klass));
+
+  pt = gst_static_pad_template_get (templ);
+  gst_element_class_add_pad_template (klass, pt);
+  gst_object_unref (pt);
+}
+#endif
+
 static GstStaticPadTemplate audio_src_templ =
         GST_STATIC_PAD_TEMPLATE("audio_%02d",
                                 GST_PAD_SRC,
