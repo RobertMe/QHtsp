@@ -171,7 +171,7 @@ void QHtspChannelModel::_updateIconUrl()
 
 void QHtspChannelModel::_updateEvent()
 {
-    QHtspChannel *channel = (QHtspChannel*)QObject::sender();
+    QHtspChannel *channel = ((QHtspEvent*)QObject::sender())->channel();
     int row = m_channels->indexOf(channel);
     QModelIndex index = createIndex(row, 4);
     emit dataChanged(index, index);
