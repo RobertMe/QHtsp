@@ -67,6 +67,11 @@ QString QHtspEvent::longDescription()
     return d->longDescription;
 }
 
+QHtspEvent *QHtspEvent::nextEvent()
+{
+    return d->nextEvent();
+}
+
 qint64 QHtspEvent::nextEventId()
 {
     return d->nextEventId;

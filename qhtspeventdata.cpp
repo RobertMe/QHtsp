@@ -20,14 +20,14 @@
 #include "qhtsp.h"
 
 QHtspEventData::QHtspEventData(QHtsp *htsp, int id) :
-    id(id), channelId(-1), htsp(htsp), nextEventId(-1), m_channel(0), m_loaded(false)
+    id(id), channelId(-1), htsp(htsp), nextEventId(-1), m_channel(0), m_loaded(false), m_nextEvent(0)
 {
 }
 
 QHtspEventData::QHtspEventData(const QHtspEventData &other) :
     QObject(0), QSharedData(other), id(other.id), channelId(other.channelId), description(other.description),
     htsp(other.htsp), nextEventId(other.nextEventId), start(other.start), stop(other.stop), title(other.title),
-    m_channel(other.m_channel), m_loaded(other.m_loaded)
+    m_channel(other.m_channel), m_loaded(other.m_loaded), m_nextEvent(other.m_nextEvent)
 {
 }
 
@@ -37,6 +37,24 @@ QHtspChannel *QHtspEventData::channel()
         m_channel = htsp->channels()->find(channelId);
 
     return m_channel;
+}
+
+QHtspEvent *QHtspEventData::nextEvent()
+{
+    if(!m_nextEvent && nextEventId >= 0)
+    {
+        m_nextEvent = htsp->events()->find(nextEventId);
+
+        if(!m_nextEvent)
+        {
+            m_nextEvent = new QHtspEvent(htsp, nextEventId, htsp);
+
+            htsp->events()->add(m_nextEvent);
+            htsp->getEvent(nextEventId);
+        }
+    }
+
+    return m_nextEvent;
 }
 
 void QHtspEventData::setId(qint64 id)
@@ -83,6 +101,7 @@ void QHtspEventData::setNextEventId(qint64 nextEventId)
         return;
 
     this->nextEventId = nextEventId;
+    m_nextEvent = 0;
     emit nextEventIdChanged();
 }
 
