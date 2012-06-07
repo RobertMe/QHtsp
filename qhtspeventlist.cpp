@@ -81,6 +81,19 @@ QHtspEvent *QHtspEventList::find(qint64 id)
     return NULL;
 }
 
+QHtspEvent *QHtspEventList::findPreviousEvent(qint64 currentEventId)
+{
+    int i;
+
+    for(i = 0; i < m_events.count(); i++)
+    {
+        if(m_events[i]->nextEventId() == currentEventId)
+            return m_events[i];
+    }
+
+    return 0;
+}
+
 bool QHtspEventList::remove(QHtspEvent *event)
 {
     disconnect(event, SIGNAL(destroyed(QObject*)), this, SLOT(_remove(QObject*)));

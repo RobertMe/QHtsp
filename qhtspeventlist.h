@@ -37,6 +37,7 @@ public:
     int count();
     int indexOf(QHtspEvent *event);
     QHtspEvent *find(qint64 id);
+    QHtspEvent *findPreviousEvent(qint64 currentEventId);
 
     void beginGroupAdd();
     void endGroupAdd();
