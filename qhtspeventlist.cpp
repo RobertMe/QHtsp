@@ -89,6 +89,9 @@ QHtspEvent *QHtspEventList::findPreviousEvent(qint64 currentEventId)
     {
         if(m_events[i]->nextEventId() == currentEventId)
             return m_events[i];
+        //event list on channel always is sorted, so if current should be previous there isn't a previous
+        else if(m_events[i]->id() == currentEventId)
+            return 0;
     }
 
     return 0;
