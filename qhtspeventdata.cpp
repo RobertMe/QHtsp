@@ -20,13 +20,15 @@
 #include "qhtsp.h"
 
 QHtspEventData::QHtspEventData(QHtsp *htsp, int id) :
-    id(id), channelId(-1), htsp(htsp), nextEventId(-1), m_channel(0), m_loaded(false), m_nextEvent(0)
+    id(id), channelId(-1), htsp(htsp), nextEventId(-1), previousEvent(0), m_channel(0), m_loaded(false), m_nextEvent(0)
 {
+    if(previousEvent)
+        connect(previousEvent, SIGNAL(destroyed()), this, SLOT(_previousEventDestroyed()));
 }
 
 QHtspEventData::QHtspEventData(const QHtspEventData &other) :
     QObject(0), QSharedData(other), id(other.id), channelId(other.channelId), description(other.description),
-    htsp(other.htsp), nextEventId(other.nextEventId), start(other.start), stop(other.stop), title(other.title),
+    htsp(other.htsp), nextEventId(other.nextEventId), previousEvent(other.previousEvent), start(other.start), stop(other.stop), title(other.title),
     m_channel(other.m_channel), m_loaded(other.m_loaded), m_nextEvent(other.m_nextEvent)
 {
 }
@@ -103,6 +105,12 @@ void QHtspEventData::setNextEventId(qint64 nextEventId)
     this->nextEventId = nextEventId;
     m_nextEvent = 0;
     emit nextEventIdChanged();
+}
+
+void QHtspEventData::setPreviousEvent(QHtspEvent *event)
+{
+    previousEvent = event;
+    emit previousEventChanged();
 }
 
 void QHtspEventData::setStart(QDateTime start)
@@ -183,4 +191,9 @@ void QHtspEventData::parseMessage(QHtspMessage &message)
         m_loaded = true;
         emit loaded();
     }
+}
+
+void QHtspEventData::_previousEventDestroyed()
+{
+    setPreviousEvent(0);
 }

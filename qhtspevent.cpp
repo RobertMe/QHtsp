@@ -77,6 +77,11 @@ qint64 QHtspEvent::nextEventId()
     return d->nextEventId;
 }
 
+QHtspEvent *QHtspEvent::previousEvent()
+{
+    return d->previousEvent;
+}
+
 QDateTime QHtspEvent::start()
 {
     return d->start;
@@ -117,6 +122,11 @@ void QHtspEvent::setNextEventId(qint64 nextEventId)
     d->setNextEventId(nextEventId);
 }
 
+void QHtspEvent::setPreviousEvent(QHtspEvent *event)
+{
+    d->setPreviousEvent(event);
+}
+
 void QHtspEvent::setStart(QDateTime start)
 {
     d->setStart(start);
@@ -154,6 +164,7 @@ void QHtspEvent::_connectSignals()
     connect(d.data(), SIGNAL(loaded()), this, SIGNAL(loaded()));
     connect(d.data(), SIGNAL(longDescriptionChanged()), this, SIGNAL(longDescriptionChanged()));
     connect(d.data(), SIGNAL(nextEventIdChanged()), this, SIGNAL(nextEventIdChanged()));
+    connect(d.data(), SIGNAL(previousEventChanged()), this, SIGNAL(previousEventChanged()));
     connect(d.data(), SIGNAL(startChanged()), this, SIGNAL(startChanged()));
     connect(d.data(), SIGNAL(stopChanged()), this, SIGNAL(stopChanged()));
     connect(d.data(), SIGNAL(titleChanged()), this, SIGNAL(titleChanged()));
