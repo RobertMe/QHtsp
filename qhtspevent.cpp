@@ -69,7 +69,10 @@ QString QHtspEvent::longDescription()
 
 QHtspEvent *QHtspEvent::nextEvent()
 {
-    return d->nextEvent();
+    QHtspEvent *next = d->nextEvent();
+    if(next)
+        next->setPreviousEvent(this);
+    return next;
 }
 
 qint64 QHtspEvent::nextEventId()
