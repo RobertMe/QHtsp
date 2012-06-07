@@ -69,10 +69,7 @@ QString QHtspEvent::longDescription()
 
 QHtspEvent *QHtspEvent::nextEvent()
 {
-    QHtspEvent *next = d->nextEvent();
-    if(next)
-        next->setPreviousEvent(this);
-    return next;
+    return d->nextEvent();
 }
 
 qint64 QHtspEvent::nextEventId()
@@ -82,7 +79,7 @@ qint64 QHtspEvent::nextEventId()
 
 QHtspEvent *QHtspEvent::previousEvent()
 {
-    return d->previousEvent;
+    return d->previousEvent();
 }
 
 QDateTime QHtspEvent::start()
@@ -123,11 +120,6 @@ void QHtspEvent::setLongDescription(QString description)
 void QHtspEvent::setNextEventId(qint64 nextEventId)
 {
     d->setNextEventId(nextEventId);
-}
-
-void QHtspEvent::setPreviousEvent(QHtspEvent *event)
-{
-    d->setPreviousEvent(event);
 }
 
 void QHtspEvent::setStart(QDateTime start)

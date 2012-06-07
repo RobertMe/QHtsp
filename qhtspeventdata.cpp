@@ -20,16 +20,16 @@
 #include "qhtsp.h"
 
 QHtspEventData::QHtspEventData(QHtsp *htsp, int id) :
-    id(id), channelId(-1), htsp(htsp), nextEventId(-1), previousEvent(0), m_channel(0), m_loaded(false), m_nextEvent(0)
+    id(id), channelId(-1), htsp(htsp), nextEventId(-1), m_channel(0), m_loaded(false), m_nextEvent(0),
+    m_previousEventSearched(false)
 {
-    if(previousEvent)
-        connect(previousEvent, SIGNAL(destroyed()), this, SLOT(_previousEventDestroyed()));
+
 }
 
 QHtspEventData::QHtspEventData(const QHtspEventData &other) :
     QObject(0), QSharedData(other), id(other.id), channelId(other.channelId), description(other.description),
-    htsp(other.htsp), nextEventId(other.nextEventId), previousEvent(other.previousEvent), start(other.start), stop(other.stop), title(other.title),
-    m_channel(other.m_channel), m_loaded(other.m_loaded), m_nextEvent(other.m_nextEvent)
+    htsp(other.htsp), nextEventId(other.nextEventId), start(other.start), stop(other.stop), title(other.title),
+    m_channel(other.m_channel), m_loaded(other.m_loaded), m_nextEvent(other.m_nextEvent), m_previousEventSearched(false)
 {
 }
 
@@ -57,6 +57,21 @@ QHtspEvent *QHtspEventData::nextEvent()
     }
 
     return m_nextEvent;
+}
+
+QHtspEvent *QHtspEventData::previousEvent()
+{
+    if(id < 0)
+        return 0;
+
+    if(!m_previousEventSearched)
+    {
+        m_previousEvent = channel()->events()->findPreviousEvent(id);
+        connect(m_previousEvent, SIGNAL(destroyed()), SLOT(_previousEventDestroyed()));
+        m_previousEventSearched = true;
+    }
+
+    return m_previousEvent;
 }
 
 void QHtspEventData::setId(qint64 id)
@@ -105,15 +120,6 @@ void QHtspEventData::setNextEventId(qint64 nextEventId)
     this->nextEventId = nextEventId;
     m_nextEvent = 0;
     emit nextEventIdChanged();
-}
-
-void QHtspEventData::setPreviousEvent(QHtspEvent *event)
-{
-    if(previousEvent && event && event->id() == previousEvent->id())
-        return;
-
-    previousEvent = event;
-    emit previousEventChanged();
 }
 
 void QHtspEventData::setStart(QDateTime start)
@@ -198,5 +204,6 @@ void QHtspEventData::parseMessage(QHtspMessage &message)
 
 void QHtspEventData::_previousEventDestroyed()
 {
-    setPreviousEvent(0);
+    m_previousEvent = 0;
+    emit previousEventChanged();
 }

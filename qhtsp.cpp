@@ -357,8 +357,6 @@ void QHtsp::_handleGetEvents(QHtspMessage &message)
         else
             event = new QHtspEvent(*message, this, events());
 
-        event->setPreviousEvent(eventList->findPreviousEvent(eventId));
-
         events()->add(event);
         eventList->add(event);
 
