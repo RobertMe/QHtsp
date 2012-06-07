@@ -109,6 +109,9 @@ void QHtspEventData::setNextEventId(qint64 nextEventId)
 
 void QHtspEventData::setPreviousEvent(QHtspEvent *event)
 {
+    if(previousEvent && event && event->id() == previousEvent->id())
+        return;
+
     previousEvent = event;
     emit previousEventChanged();
 }
