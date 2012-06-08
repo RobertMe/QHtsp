@@ -67,7 +67,8 @@ QHtspEvent *QHtspEventData::previousEvent()
     if(!m_previousEventSearched)
     {
         m_previousEvent = channel()->events()->findPreviousEvent(id);
-        connect(m_previousEvent, SIGNAL(destroyed()), SLOT(_previousEventDestroyed()));
+        if(m_previousEvent)
+            connect(m_previousEvent, SIGNAL(destroyed()), SLOT(_previousEventDestroyed()));
         m_previousEventSearched = true;
     }
 
