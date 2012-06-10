@@ -29,6 +29,7 @@
 
 class QHtsp;
 class QHtspChannel;
+class QHtspEvent;
 
 class QHtspEventData : public QObject, public QSharedData
 {
@@ -59,6 +60,8 @@ public:
     void setTitle(QString title);
 
     QHtspChannel *channel();
+    QHtspEvent *nextEvent();
+    QHtspEvent *previousEvent();
 
     void parseMessage(QHtspMessage &message);
 
@@ -68,6 +71,7 @@ signals:
     void descriptionChanged();
     void longDescriptionChanged();
     void nextEventIdChanged();
+    void previousEventChanged();
     void startChanged();
     void stopChanged();
     void titleChanged();
@@ -77,6 +81,12 @@ signals:
 private:
     QHtspChannel *m_channel;
     bool m_loaded;
+    QHtspEvent *m_nextEvent;
+    QHtspEvent *m_previousEvent;
+    bool m_previousEventSearched;
+
+private slots:
+    void _previousEventDestroyed();
 };
 
 class QHtspEvent : public QObject
@@ -87,6 +97,9 @@ class QHtspEvent : public QObject
     Q_PROPERTY(qint64 channelId READ channelId WRITE setChannelId NOTIFY channelIdChanged)
     Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
     Q_PROPERTY(QString longDescription READ longDescription WRITE setLongDescription NOTIFY longDescriptionChanged)
+    Q_PROPERTY(QHtspEvent *nextEvent READ nextEvent NOTIFY nextEventIdChanged)
+    Q_PROPERTY(qint64 nextEventId READ nextEventId WRITE setNextEventId NOTIFY nextEventIdChanged)
+    Q_PROPERTY(QHtspEvent *previousEvent READ previousEvent NOTIFY previousEventChanged)
     Q_PROPERTY(QDateTime start READ start WRITE setStart NOTIFY startChanged)
     Q_PROPERTY(QDateTime stop READ stop WRITE setStop NOTIFY stopChanged)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
@@ -101,7 +114,9 @@ public:
     qint64 channelId();
     QString description();
     QString longDescription();
+    QHtspEvent *nextEvent();
     qint64 nextEventId();
+    QHtspEvent *previousEvent();
     QDateTime start();
     QDateTime stop();
     QString title();
@@ -124,6 +139,7 @@ signals:
     void descriptionChanged();
     void longDescriptionChanged();
     void nextEventIdChanged();
+    void previousEventChanged();
     void startChanged();
     void stopChanged();
     void titleChanged();
