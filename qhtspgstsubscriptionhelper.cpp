@@ -1,10 +1,19 @@
 #include "qhtspgstsubscriptionhelper.h"
 
 QHtspGstSubscriptionHelper::QHtspGstSubscriptionHelper(QHtspSubscription *subscription) :
-    QObject(subscription)
+    QObject(subscription), m_pipeline(0), m_audioDecoder(0)
 {
     m_subscription = subscription;
     m_gstHtspSrc = GST_HTSP_SRC(gst_element_factory_make("htspsrc", "htsp"));
+}
+
+QHtspGstSubscriptionHelper::~QHtspGstSubscriptionHelper()
+{
+    if(m_pipeline)
+    {
+        gst_element_set_state(m_pipeline, GST_STATE_NULL);
+        gst_object_unref(m_pipeline);
+    }
 }
 
 GstHtspSrc *QHtspGstSubscriptionHelper::gstHtspSrc()
@@ -18,6 +27,34 @@ void QHtspGstSubscriptionHelper::start()
         _initPads();
     else
         connect(m_subscription, SIGNAL(started()), this, SLOT(_initPads()));
+
+    m_pipeline = gst_pipeline_new("player");
+}
+
+void QHtspGstSubscriptionHelper::_initAudioPad(GstPad *pad)
+{
+    if(m_audioDecoder)
+        return;
+#if defined(MEEGO_EDITION_HARMATTAN)
+    m_audioDecoder = gst_element_factory_make("nokiamp3dec", "audio-decoder");
+#else
+    m_audioDecoder = gst_element_factory_make("mad", "audio-decoder");
+#endif
+    GstElement *source, *convertor, *sink;
+    GstPad *sinkpad;
+
+    source = GST_ELEMENT(gstHtspSrc());
+    convertor = gst_element_factory_make("audioconvert", "convertor");
+    sink = gst_element_factory_make("autoaudiosink", "audio-output");
+
+    gst_bin_add_many(GST_BIN(m_pipeline),
+                     source, m_audioDecoder, convertor, sink, NULL);
+
+    gst_element_link_many(m_audioDecoder, convertor, sink, NULL);
+
+    sinkpad = gst_element_get_static_pad(m_audioDecoder, "sink");
+    gst_pad_link(pad, sinkpad);
+    gst_object_unref(sinkpad);
 }
 
 void QHtspGstSubscriptionHelper::_initPads()
@@ -60,7 +97,7 @@ void QHtspGstSubscriptionHelper::_initPads()
         if(!caps)
             continue;
 
-        GstPad *pad = gst_pad_new_from_template(templ, type.append("_%1").arg(i, -2, 10, QChar('0')).toAscii());
+        GstPad *pad = gst_pad_new_from_template(templ, QString(type).append("_%1").arg(i, -2, 10, QChar('0')).toAscii());
         gst_pad_use_fixed_caps(pad);
         gst_pad_set_caps(pad, caps);
         gst_pad_set_active(pad, TRUE);
@@ -69,8 +106,12 @@ void QHtspGstSubscriptionHelper::_initPads()
         m_pads.insert(stream->id(), pad);
         connect(stream, SIGNAL(frameReceived(QHtspStream*)), this, SLOT(_pushData(QHtspStream*)));
         stream->open();
-        emit padAdded(pad);
+
+        if(type == "audio")
+            _initAudioPad(pad);
     }
+
+    gst_element_set_state(m_pipeline, GST_STATE_PLAYING);
 }
 
 void QHtspGstSubscriptionHelper::_pushData(QHtspStream *stream)
