@@ -1,7 +1,7 @@
 #include "qhtspgstsubscriptionhelper.h"
 
 QHtspGstSubscriptionHelper::QHtspGstSubscriptionHelper(QHtspSubscription *subscription) :
-    QObject(subscription), m_pipeline(0), m_audioDecoder(0)
+    QObject(subscription), m_pipeline(0), m_audioDecoder(0), m_videoDecoder(0)
 {
     m_subscription = subscription;
     m_gstHtspSrc = GST_HTSP_SRC(gst_element_factory_make("htspsrc", "htsp"));
@@ -29,6 +29,7 @@ void QHtspGstSubscriptionHelper::start()
         connect(m_subscription, SIGNAL(started()), this, SLOT(_initPads()));
 
     m_pipeline = gst_pipeline_new("player");
+    gst_bin_add(GST_BIN(m_pipeline), GST_ELEMENT(gstHtspSrc()));
 }
 
 void QHtspGstSubscriptionHelper::_initAudioPad(GstPad *pad)
@@ -40,19 +41,43 @@ void QHtspGstSubscriptionHelper::_initAudioPad(GstPad *pad)
 #else
     m_audioDecoder = gst_element_factory_make("mad", "audio-decoder");
 #endif
-    GstElement *source, *convertor, *sink;
+    GstElement *queue, *convertor, *sink;
     GstPad *sinkpad;
 
-    source = GST_ELEMENT(gstHtspSrc());
+    queue = gst_element_factory_make("queue", "audio-queue");
     convertor = gst_element_factory_make("audioconvert", "convertor");
     sink = gst_element_factory_make("autoaudiosink", "audio-output");
 
     gst_bin_add_many(GST_BIN(m_pipeline),
-                     source, m_audioDecoder, convertor, sink, NULL);
+                     queue, m_audioDecoder, convertor, sink, NULL);
 
-    gst_element_link_many(m_audioDecoder, convertor, sink, NULL);
+    gst_element_link_many(queue, m_audioDecoder, convertor, sink, NULL);
 
-    sinkpad = gst_element_get_static_pad(m_audioDecoder, "sink");
+    sinkpad = gst_element_get_static_pad(queue, "sink");
+    gst_pad_link(pad, sinkpad);
+    gst_object_unref(sinkpad);
+}
+
+void QHtspGstSubscriptionHelper::_initVideoPad(GstPad *pad)
+{
+    if(m_videoDecoder)
+        return;
+
+    m_videoDecoder = gst_element_factory_make("mpeg2dec", "video-decoder");
+
+    GstElement *queue, *rate, *sink;
+    GstPad *sinkpad;
+
+    queue = gst_element_factory_make("queue", "video-queue");
+    rate = gst_element_factory_make("videorate", "video-rate");
+    sink = gst_element_factory_make("autovideosink", "video-output");
+
+    gst_bin_add_many(GST_BIN(m_pipeline),
+                     queue, m_videoDecoder, rate, sink, NULL);
+
+    gst_element_link_many(queue, m_videoDecoder, rate, sink, NULL);
+
+    sinkpad = gst_element_get_static_pad(queue, "sink");
     gst_pad_link(pad, sinkpad);
     gst_object_unref(sinkpad);
 }
@@ -90,6 +115,12 @@ void QHtspGstSubscriptionHelper::_initPads()
             type = "audio";
             templ = gst_element_class_get_pad_template(klass, "audio_%02d");
             break;
+        case QHtspStream::MPEG2VIDEO:
+            caps = gst_caps_new_simple("video/mpeg",
+                                       "mpegversion", G_TYPE_INT, 1, "layer", G_TYPE_INT, 2, NULL);
+            type = "video";
+            templ = gst_element_class_get_pad_template(klass, "video_%02d");
+            break;
         default:
             break;
         }
@@ -109,6 +140,8 @@ void QHtspGstSubscriptionHelper::_initPads()
 
         if(type == "audio")
             _initAudioPad(pad);
+        else if(type == "video")
+            _initVideoPad(pad);
     }
 
     gst_element_set_state(m_pipeline, GST_STATE_PLAYING);

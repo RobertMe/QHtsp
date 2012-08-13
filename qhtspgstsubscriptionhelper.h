@@ -26,8 +26,10 @@ private:
     QHtspSubscription *m_subscription;
     GstElement *m_pipeline;
     GstElement *m_audioDecoder;
+    GstElement *m_videoDecoder;
 
     void _initAudioPad(GstPad *pad);
+    void _initVideoPad(GstPad *pad);
 
 private slots:
     void _initPads();
